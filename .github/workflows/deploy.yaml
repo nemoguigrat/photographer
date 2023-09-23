@@ -44,7 +44,7 @@ jobs:
       POSTGRES_USER: ${{ vars.POSTGRES_USER }}
     steps:
       - name: output vars
-        uses: |
+        run: |
           echo "database name ${{ vars.POSTGRES_DB }}"
       - name: checkout repo
         uses: actions/checkout@v3
