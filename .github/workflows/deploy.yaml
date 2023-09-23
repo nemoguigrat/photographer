@@ -37,11 +37,15 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
+    environment: deploy-env
     env:
       POSTGRES_DB: ${{ vars.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
       POSTGRES_USER: ${{ vars.POSTGRES_USER }}
     steps:
+      - name: output vars
+        uses: |
+          echo "database name ${{ vars.POSTGRES_DB }}"
       - name: checkout repo
         uses: actions/checkout@v3
       - name: docker-compose
