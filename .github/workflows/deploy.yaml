@@ -42,9 +42,9 @@ jobs:
     runs-on: self-hosted
     needs: prepare-environment
     env:
-      POSTGRES_DB: ${vars.POSTGRES_DB}
-      POSTGRES_PASSWORD: ${vars.POSTGRES_PASSWORD}
-      POSTGRES_USER: ${vars.POSTGRES_USER}
+      POSTGRES_DB: ${{ vars.POSTGRES_DB }}
+      POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
+      POSTGRES_USER: ${{ vars.POSTGRES_USER }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
