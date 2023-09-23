@@ -1,0 +1,44 @@
+name: Deploy job
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: cd into repo
+        uses: actions/checkout@v3
+
+      - name: set up
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: run tests
+        run: gradle test # Запускаем тесты.
+
+  prepare-environment:
+    runs-on: self-hosted
+    needs: test
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
+
+  deploy:
+    runs-on: self-hosted
+    needs: prepare-environment
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: docker-compose
+        run: docker-compose up -d
