@@ -1,4 +1,4 @@
-package com.example.photographer.support;
+package com.example.photographer.support.domain;
 
 public interface HibernateSequence {
 
