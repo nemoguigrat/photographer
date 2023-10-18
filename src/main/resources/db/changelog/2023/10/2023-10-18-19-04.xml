@@ -5,7 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <includeAll path="2023/09" relativeToChangelogFile="true"/>
-    <includeAll path="2023/10" relativeToChangelogFile="true"/>
+    <changeSet id="2023-10-18-19-04" author="ivanovna">
 
+        <addNotNullConstraint tableName="photographer" columnName="technique_info_id"/>
+        <dropColumn tableName="photographer" columnName="status" />
+    </changeSet>
 </databaseChangeLog>

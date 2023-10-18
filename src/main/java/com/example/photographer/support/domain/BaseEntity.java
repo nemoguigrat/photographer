@@ -1,12 +1,14 @@
-package com.example.photographer.support;
+package com.example.photographer.support.domain;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Version;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
@@ -15,7 +17,9 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
 @NoArgsConstructor
+@FieldNameConstants
 @AllArgsConstructor
+@TypeDef(name = DataType.JSONB, typeClass = JsonBinaryType.class)
 public abstract class BaseEntity {
 
     @Id

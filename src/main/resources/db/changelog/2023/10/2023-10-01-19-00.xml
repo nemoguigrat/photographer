@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-10-01-19-00_1" author="ivanovna">
+        <createTable tableName="user">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="user_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photographer_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reg_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="blocked" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_login_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="photographer">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="firstname" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthdate" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contacts" type="jsonb">
+                <constraints nullable="true"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trainee" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="score" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="image" type="blob">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="technique_info">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="technique_info_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="laptop" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="battery_count" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="manufacturer">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="manufacturer_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="model">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="model_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="memory">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="memory_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="camera">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="camera_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="crop" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="lens">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="lens_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="camera_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="focus" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="battery">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="battery_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="flash">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="flash_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacturer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="additional_technique">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="additional_technique_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technique_info_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2023-10-01-19-00_2" author="ivanovna">
+        <addForeignKeyConstraint baseTableName="user"
+                                 baseColumnNames="photographer_id"
+                                 constraintName="fk_user_photographer_id"
+                                 referencedTableName="photographer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="user" indexName="idx_user_photographer_id">
+            <column name="photographer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="photographer"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_photographer_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="photographer" indexName="idx_photographer_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <createIndex unique="true" tableName="photographer" indexName="idx_photographer_email_unique">
+            <column name="email"/>
+        </createIndex>
+
+        <createIndex unique="true" tableName="user" indexName="idx_user_email_unique">
+            <column name="email"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="camera"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_camera_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="camera" indexName="idx_camera_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="memory"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_memory_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="memory" indexName="idx_memory_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="additional_technique"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_additional_technique_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="additional_technique" indexName="idx_additional_technique_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="battery"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_battery_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="battery" indexName="idx_battery_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_lens_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="lens" indexName="idx_lens_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="flash"
+                                 baseColumnNames="technique_info_id"
+                                 constraintName="fk_flash_technique_info_id"
+                                 referencedTableName="technique_info"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="flash" indexName="idx_flash_technique_info_id">
+            <column name="technique_info_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="camera"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_camera_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="camera" indexName="idx_camera_manufacturer_id">
+            <column name="manufacturer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="camera"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_camera_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="camera" indexName="idx_camera_model_id">
+            <column name="model_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="flash"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_flash_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="flash" indexName="idx_flash_manufacturer_id">
+            <column name="manufacturer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="flash"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_flash_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="flash" indexName="idx_flash_model_id">
+            <column name="model_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="battery"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_battery_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="battery" indexName="idx_battery_manufacturer_id">
+            <column name="manufacturer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="battery"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_battery_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="battery" indexName="idx_battery_model_id">
+            <column name="model_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="memory"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_memory_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="memory" indexName="idx_memory_manufacturer_id">
+            <column name="manufacturer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_lens_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="lens" indexName="idx_lens_manufacturer_id">
+            <column name="manufacturer_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_lens_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="lens" indexName="idx_lens_model_id">
+            <column name="model_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="camera_id"
+                                 constraintName="fk_lens_camera_id"
+                                 referencedTableName="camera"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="lens" indexName="idx_lens_camera_id">
+            <column name="camera_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
