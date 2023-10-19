@@ -4,6 +4,7 @@ import com.example.photographer.service.dto.auth.AuthRequest;
 import com.example.photographer.service.dto.auth.LoginResponse;
 import com.example.photographer.service.AuthService;
 import com.example.photographer.support.api.AdminApi;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class AdminAuthController {
 
     AuthService adminAuthService;
 
+    @Operation(summary = "Аутентификация в админке")
     @PostMapping("/auth/login")
     public LoginResponse login(@RequestBody AuthRequest authRequest) {
         return adminAuthService.login(authRequest);
