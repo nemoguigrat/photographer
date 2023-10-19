@@ -14,6 +14,7 @@ import java.util.List;
 import static lombok.AccessLevel.PRIVATE;
 
 @AdminApi
+@Deprecated
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = PRIVATE)
 public class AdminPhotographerController {

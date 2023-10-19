@@ -17,6 +17,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class PhotographerUpdateRequest {
 
+    String email;
+
     String firstname;
 
     String surname;

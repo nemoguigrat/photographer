@@ -6,6 +6,7 @@ import com.example.photographer.service.dto.auth.LoginResponse;
 import com.example.photographer.service.dto.auth.RegistrationResponse;
 import com.example.photographer.service.AuthService;
 import com.example.photographer.support.api.WebApi;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,13 @@ public class ApiAuthController {
 
     AuthService apiAuthService;
 
+    @Operation(summary = "Аутентификация фотографа")
     @PostMapping("/auth/login")
     public LoginResponse login(@RequestBody AuthRequest authRequest) {
         return apiAuthService.login(authRequest);
     }
 
+    @Operation(summary = "Регистрация фотографа")
     @PostMapping("/auth/register")
     public RegistrationResponse register(@RequestBody RegisterRequest authRequest) {
         return apiAuthService.register(authRequest);
