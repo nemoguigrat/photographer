@@ -1,9 +1,9 @@
-package com.example.photographer.api.web.controller;
+package com.example.photographer.api.admin.controller;
 
 import com.example.photographer.service.ManufacturerService;
 import com.example.photographer.service.dto.technique.ManufacturerDto;
 import com.example.photographer.support.TechniqueType;
-import com.example.photographer.support.api.WebApi;
+import com.example.photographer.support.api.AdminApi;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@WebApi
+@AdminApi
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class ManufacturerController {
+public class AdminManufacturerController {
 
     ManufacturerService manufacturerService;
 

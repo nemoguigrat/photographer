@@ -1,5 +1,6 @@
 package com.example.photographer.api.web.controller;
 
+import com.example.photographer.service.dto.photographer.request.PhotographerChangeCredentialRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.response.PhotographerInfoResponse;
 import com.example.photographer.service.PhotographerService;
@@ -13,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @WebApi
@@ -29,8 +31,14 @@ public class PhotographerController {
     }
 
     @Operation(summary = "Обновление информации")
-    @PostMapping("/photographer")
+    @PutMapping("/photographer/info")
     public void update(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @RequestBody PhotographerUpdateRequest request) {
         photographerService.update(userDetails, request);
+    }
+
+    @Operation(summary = "Обновление логина и пароля")
+    @PutMapping("/photographer/credential")
+    public void update(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @RequestBody PhotographerChangeCredentialRequest request) {
+        photographerService.updateCredential(userDetails, request);
     }
 }

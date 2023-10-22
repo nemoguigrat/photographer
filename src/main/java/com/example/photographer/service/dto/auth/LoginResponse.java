@@ -17,4 +17,6 @@ public class LoginResponse {
     String email;
 
     UserStatus status;
+
+    boolean authenticate;
 }

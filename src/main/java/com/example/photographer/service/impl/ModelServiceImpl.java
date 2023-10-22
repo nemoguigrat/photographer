@@ -23,6 +23,7 @@ public class ModelServiceImpl implements ModelService {
     ModelRepository modelRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ModelDto> findModelByType(TechniqueType type) {
         return modelRepository.findAllByType(type).stream().map(Model::buildDto).collect(Collectors.toList());
     }

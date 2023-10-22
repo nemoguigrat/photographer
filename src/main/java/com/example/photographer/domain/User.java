@@ -19,18 +19,18 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity {
 
     @Column
+    @Setter
     String email;
 
     @Column
+    @Setter
     String password;
 
     @Column(name = "reg_date")
     LocalDate registrationDate;
 
     @Column
-    Boolean blocked;
-
-    @Column
+    @Setter
     LocalDateTime lastLoginTime;
 
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -39,5 +39,6 @@ public class User extends BaseEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
+    @Setter
     UserStatus status;
 }

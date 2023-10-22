@@ -23,6 +23,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     ManufacturerRepository manufacturerRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ManufacturerDto> findManufacturerByType(TechniqueType type) {
         return manufacturerRepository.findAllByType(type).stream().map(Manufacturer::buildDto).collect(Collectors.toList());
     }

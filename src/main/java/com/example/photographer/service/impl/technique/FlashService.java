@@ -1,19 +1,18 @@
 package com.example.photographer.service.impl.technique;
 
-import com.example.photographer.domain.Battery;
 import com.example.photographer.domain.Flash;
-import com.example.photographer.domain.Memory;
 import com.example.photographer.domain.TechniqueInfo;
 import com.example.photographer.repository.ManufacturerRepository;
 import com.example.photographer.repository.ModelRepository;
 import com.example.photographer.repository.technique.FlashRepository;
-import com.example.photographer.service.dto.technique.request.BatteryRequest;
+import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
 import com.example.photographer.service.dto.technique.request.FlashRequest;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
 import com.example.photographer.service.impl.AbstractTechniqueService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +27,7 @@ public class FlashService extends AbstractTechniqueService<Flash> {
     }
 
     @Override
+    @Transactional
     public void updateTechniqueInfo(TechniqueInfo techniqueInfo, TechniqueRequest techniqueRequest) {
         if (techniqueRequest.getFlashes() == null) {
             return;
@@ -51,4 +51,7 @@ public class FlashService extends AbstractTechniqueService<Flash> {
         domainCollection.clear();
         domainCollection.addAll(updateSet);
     }
+
+    @Override
+    protected void applyFromRequest(Flash domain, AbstractTechniqueRequest request) {}
 }
