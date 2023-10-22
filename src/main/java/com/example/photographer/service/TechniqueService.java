@@ -1,19 +1,20 @@
 package com.example.photographer.service;
 
 import com.example.photographer.domain.TechniqueInfo;
+import com.example.photographer.service.dto.photographer.response.AdminTechniqueList;
 import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
 import com.example.photographer.service.dto.technique.AbstractTechniqueDto;
+import com.example.photographer.service.dto.technique.request.TechniqueFilter;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface TechniqueService<T> {
 
-    List<AbstractTechniqueDto> findAllTechnique();
+    AdminTechniqueList findAllTechnique(TechniqueFilter filter, Pageable pageable);
 
     AbstractTechniqueDto findTechnique(Long id);
 
-    void upsertTechnique(AbstractTechniqueRequest request);
+    void updateTechnique(AbstractTechniqueRequest request);
 
     void deleteTechnique(Long id);
 

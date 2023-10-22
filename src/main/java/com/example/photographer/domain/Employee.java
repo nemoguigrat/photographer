@@ -31,5 +31,6 @@ public class Employee extends BaseEntity {
     Boolean blocked;
 
     @Column
+    @Setter
     LocalDateTime lastLoginTime;
 }

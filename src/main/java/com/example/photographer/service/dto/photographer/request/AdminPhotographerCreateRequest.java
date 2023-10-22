@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -14,11 +17,20 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class AdminPhotographerCreateRequest {
 
+    @NotBlank
     String email;
 
+    @NotBlank
     String firstname;
 
+    @NotBlank
     String surname;
 
+    @NotBlank
     String middleName;
+
+    @NotNull
+    Boolean trainee;
+
+    String description;
 }

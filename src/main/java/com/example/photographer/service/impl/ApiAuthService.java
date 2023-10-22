@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -40,11 +41,12 @@ public class ApiAuthService implements AuthService {
     PhotographerRepository photographerRepository;
 
     @Override
+    @Transactional
     public LoginResponse login(AuthRequest authRequest) {
         User user = userRepository.findUserByEmail(authRequest.getEmail());
-
+        boolean authenticate = false;
         // не аутентифицируем пользователя, если его не аппровнули
-        if (user.getStatus() != UserStatus.APPROVED) {
+        if (user.getStatus() == UserStatus.APPROVED) {
             Authentication authentication = apiAuthProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getId().toString(),
@@ -52,12 +54,15 @@ public class ApiAuthService implements AuthService {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            user.setLastLoginTime(LocalDateTime.now());
+            authenticate = true;
         }
 
         return LoginResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .status(user.getStatus())
+                .authenticate(authenticate)
                 .build();
     }
 
@@ -75,7 +80,6 @@ public class ApiAuthService implements AuthService {
                 .photographer(photographer)
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .blocked(false)
                 .status(UserStatus.CREATED)
                 .registrationDate(LocalDate.now())
                 .build();
@@ -87,7 +91,6 @@ public class ApiAuthService implements AuthService {
 
     private Photographer buildPhotographer(RegisterRequest registerRequest) {
         return Photographer.builder()
-                .email(registerRequest.getEmail())
                 .birthdate(registerRequest.getBirthdate())
                 .phone(registerRequest.getPhone())
                 .firstname(registerRequest.getFirstname())

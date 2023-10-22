@@ -27,6 +27,7 @@ public class PhotographerTechniqueServiceImpl implements PhotographerTechniqueSe
     TechniqueResolverService techniqueResolverService;
 
     @Override
+    @Transactional(readOnly = true)
     public TechniqueDto findAllPhotographerTechnique(UmnUserDetails userDetails) {
         Photographer photographer = photographerRepository.findByUser_Id(userDetails.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("msg"));

@@ -1,5 +1,6 @@
 package com.example.photographer.domain;
 
+import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
 import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.support.domain.DataType;
@@ -48,9 +49,6 @@ public class Photographer extends BaseEntity {
     Map<String, String> contacts;
 
     @Column
-    String email;
-
-    @Column
     boolean trainee;
 
     @Column
@@ -73,5 +71,17 @@ public class Photographer extends BaseEntity {
         this.birthdate = request.getBirthdate();
         this.contacts = request.getContacts();
         this.phone = request.getPhone();
+    }
+
+    public void updateFrom(AdminPhotographerUpdateRequest request) {
+        this.firstname = request.getFirstname();
+        this.surname = request.getSurname();
+        this.middleName = request.getMiddleName();
+        this.birthdate = request.getBirthdate();
+        this.contacts = request.getContacts();
+        this.phone = request.getPhone();
+        this.description = request.getDescription();
+        this.score = request.getScore();
+        this.trainee = request.getTrainee();
     }
 }

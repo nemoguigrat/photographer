@@ -37,4 +37,6 @@ public class AdminPhotographerResponse {
     LocalDate registrationDate;
 
     String description;
+
+    boolean trainee;
 }

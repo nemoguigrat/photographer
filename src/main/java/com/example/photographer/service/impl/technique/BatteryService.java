@@ -7,6 +7,7 @@ import com.example.photographer.domain.TechniqueInfo;
 import com.example.photographer.repository.ManufacturerRepository;
 import com.example.photographer.repository.ModelRepository;
 import com.example.photographer.repository.technique.BatteryRepository;
+import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
 import com.example.photographer.service.dto.technique.request.BatteryRequest;
 import com.example.photographer.service.dto.technique.request.CameraRequest;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
@@ -14,6 +15,7 @@ import com.example.photographer.service.impl.AbstractTechniqueService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +30,7 @@ public class BatteryService extends AbstractTechniqueService<Battery> {
     }
 
     @Override
+    @Transactional
     public void updateTechniqueInfo(TechniqueInfo techniqueInfo, TechniqueRequest techniqueRequest) {
         if (techniqueRequest.getBatteries() == null) {
             return;
@@ -51,4 +54,7 @@ public class BatteryService extends AbstractTechniqueService<Battery> {
         domainCollection.clear();
         domainCollection.addAll(updateSet);
     }
+
+    @Override
+    protected void applyFromRequest(Battery domain, AbstractTechniqueRequest request) { }
 }

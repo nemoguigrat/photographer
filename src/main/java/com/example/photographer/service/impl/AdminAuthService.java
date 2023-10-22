@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -32,7 +34,7 @@ public class AdminAuthService implements AuthService {
     public LoginResponse login(AuthRequest authRequest) {
         Employee employee = employeeRepository.findEmployeeByEmail(authRequest.getEmail());
 
-        UserStatus status = UserStatus.APPROVED;
+       boolean authenticate = false;
 
         if (!employee.getBlocked()) {
             Authentication authentication = adminAuthProvider.authenticate(
@@ -42,13 +44,15 @@ public class AdminAuthService implements AuthService {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            status = UserStatus.BLOCKED;
+            employee.setLastLoginTime(LocalDateTime.now());
+            authenticate = true;
         }
 
         return LoginResponse.builder()
                 .id(employee.getId())
                 .email(employee.getEmail())
-                .status(status)
+                .status(authenticate ? UserStatus.CREATED : UserStatus.BLOCKED)
+                .authenticate(authenticate)
                 .build();
     }
 

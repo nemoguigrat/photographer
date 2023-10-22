@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-10-19-19-44" author="ivanovna">
+
+        <dropForeignKeyConstraint baseTableName="camera" constraintName="fk_camera_manufacturer_id" />
+        <dropForeignKeyConstraint baseTableName="camera" constraintName="fk_camera_model_id" />
+
+        <dropForeignKeyConstraint baseTableName="flash" constraintName="fk_flash_manufacturer_id" />
+        <dropForeignKeyConstraint baseTableName="flash" constraintName="fk_flash_model_id" />
+
+        <dropForeignKeyConstraint baseTableName="battery" constraintName="fk_battery_manufacturer_id" />
+        <dropForeignKeyConstraint baseTableName="battery" constraintName="fk_battery_model_id" />
+
+        <dropForeignKeyConstraint baseTableName="lens" constraintName="fk_lens_manufacturer_id" />
+        <dropForeignKeyConstraint baseTableName="lens" constraintName="fk_lens_model_id" />
+        <dropForeignKeyConstraint baseTableName="lens" constraintName="fk_lens_camera_id" />
+
+        <dropForeignKeyConstraint baseTableName="memory" constraintName="fk_memory_manufacturer_id" />
+
+        <addForeignKeyConstraint baseTableName="camera"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_camera_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="camera"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_camera_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="flash"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_flash_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="flash"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_flash_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="battery"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_battery_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="battery"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_battery_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="memory"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_memory_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="memory"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_memory_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <createIndex unique="false" tableName="memory" indexName="idx_memory_model_id">
+            <column name="model_id"/>
+        </createIndex>
+
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="manufacturer_id"
+                                 constraintName="fk_lens_manufacturer_id"
+                                 referencedTableName="manufacturer"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="model_id"
+                                 constraintName="fk_lens_model_id"
+                                 referencedTableName="model"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+        <addForeignKeyConstraint baseTableName="lens"
+                                 baseColumnNames="camera_id"
+                                 constraintName="fk_lens_camera_id"
+                                 referencedTableName="camera"
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
+
+    </changeSet>
+</databaseChangeLog>

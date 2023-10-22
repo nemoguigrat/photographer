@@ -3,6 +3,7 @@ package com.example.photographer.service.impl;
 import com.example.photographer.domain.User;
 import com.example.photographer.repository.UserRepository;
 import com.example.photographer.support.UmnUserDetails;
+import com.example.photographer.support.UserStatus;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,7 @@ public class ApiUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserById(Long.parseLong(username));
 
-        if (Boolean.TRUE.equals(user.getBlocked())) {
+        if (user.getStatus() != UserStatus.APPROVED) {
             throw new UsernameNotFoundException("msg");
         }
 
