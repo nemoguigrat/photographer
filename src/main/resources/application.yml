@@ -42,5 +42,5 @@ logging:
       max-history: 24
   level:
     sql: debug
-    root: debug
+    root: info
     web: debug
