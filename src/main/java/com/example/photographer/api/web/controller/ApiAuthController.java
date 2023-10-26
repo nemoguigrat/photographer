@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @WebApi
@@ -24,13 +26,13 @@ public class ApiAuthController {
 
     @Operation(summary = "Аутентификация фотографа")
     @PostMapping("/auth/login")
-    public LoginResponse login(@RequestBody AuthRequest authRequest) {
+    public LoginResponse login(@Valid @RequestBody AuthRequest authRequest) {
         return apiAuthService.login(authRequest);
     }
 
     @Operation(summary = "Регистрация фотографа")
     @PostMapping("/auth/register")
-    public RegistrationResponse register(@RequestBody RegisterRequest authRequest) {
+    public RegistrationResponse register(@Valid @RequestBody RegisterRequest authRequest) {
         return apiAuthService.register(authRequest);
     }
 

@@ -31,7 +31,4 @@ volumes:
   db-data:
     driver: local
   service-logs:
-    driver_opts:
-      type: none
-      device: /home/logs
-      o: bind
+    driver: local
