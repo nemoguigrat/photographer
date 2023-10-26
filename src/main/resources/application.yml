@@ -31,3 +31,16 @@ spring:
 springdoc:
   api-docs:
     enabled: true
+
+logging:
+  file:
+    name: ./logs/photographer.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd-HH}.%i.log
+      max-file-size: 500KB # by size
+      max-history: 24
+  level:
+    sql: debug
+    root: debug
+    web: debug

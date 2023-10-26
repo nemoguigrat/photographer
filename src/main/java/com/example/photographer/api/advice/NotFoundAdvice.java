@@ -1,7 +1,8 @@
 package com.example.photographer.api.advice;
 
 import com.example.photographer.exception.NotFoundException;
-import com.example.photographer.support.exception.ErrorWrapperEntry;
+import com.example.photographer.support.exception.ApiError;
+import com.example.photographer.support.exception.ErrorList;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -21,19 +22,19 @@ public class NotFoundAdvice {
     @ExceptionHandler({
             NotFoundException.class,
             EntityNotFoundException.class})
-    public ResponseEntity<ErrorWrapperEntry> notFound() {
+    public ResponseEntity<ApiError> notFound() {
 
         return status(UNPROCESSABLE_ENTITY)
-                .body(ErrorWrapperEntry.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
+                .body(ApiError.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
     }
 
     @ExceptionHandler({
             UsernameNotFoundException.class,
     })
-    public ResponseEntity<ErrorWrapperEntry> userNotFound() {
+    public ResponseEntity<ApiError> userNotFound() {
 
         return status(NOT_FOUND)
-                .body(ErrorWrapperEntry.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
+                .body(ApiError.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
     }
 }
 
