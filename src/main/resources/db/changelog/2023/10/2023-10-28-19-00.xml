@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-10-28-19-00" author="ivanovna">
+        <createTable tableName="event">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="event_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="level" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="time_zone" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="drive_link" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photographers_count" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="zone">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="zone_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="manager" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="location">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="location_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="manager" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="zone_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="activity">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="activity_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photographers_count" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="priority" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="shooting_time" type="jsonb">
+                <constraints nullable="true"/>
+            </column>
+            <column name="shooting_type" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="important_persons" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_update_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="activity_code" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+
+    </changeSet>
+</databaseChangeLog>
