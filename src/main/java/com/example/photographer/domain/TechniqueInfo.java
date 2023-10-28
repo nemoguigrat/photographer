@@ -40,11 +40,14 @@ public class TechniqueInfo extends BaseEntity {
     Photographer photographer;
 
     @Column
+    @Setter
     boolean laptop;
 
     @Column
+    @Setter
     String description;
 
     @Column
+    @Setter
     Integer batteryCount;
 }

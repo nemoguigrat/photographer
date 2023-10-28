@@ -12,13 +12,16 @@ import com.example.photographer.service.dto.technique.request.BatteryRequest;
 import com.example.photographer.service.dto.technique.request.CameraRequest;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
 import com.example.photographer.service.impl.AbstractTechniqueService;
+import com.example.photographer.support.TechniqueType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -32,15 +35,16 @@ public class BatteryService extends AbstractTechniqueService<Battery> {
     @Override
     @Transactional
     public void updateTechniqueInfo(TechniqueInfo techniqueInfo, TechniqueRequest techniqueRequest) {
-        if (techniqueRequest.getBatteries() == null) {
-            return;
-        }
+        List<BatteryRequest> requests = techniqueRequest.getTechnique().stream()
+                .filter(t -> t.getType() == TechniqueType.BATTERY)
+                .map(t -> (BatteryRequest) t)
+                .collect(Collectors.toList());
 
         Set<Battery> updateSet = new HashSet<>();
         Set<Battery> domainCollection = techniqueInfo.getBatteries();
 
-        for (BatteryRequest batteryRequest : techniqueRequest.getBatteries()) {
-            Battery toUpdate = techniqueInfo.getBatteries().stream().filter(b -> b.getId().equals(batteryRequest.getId()))
+        for (BatteryRequest batteryRequest : requests) {
+            Battery toUpdate = domainCollection.stream().filter(b -> b.getId().equals(batteryRequest.getId()))
                     .findFirst().orElseGet(() -> {
                         Battery battery = new Battery();
                         battery.setTechniqueInfo(techniqueInfo);

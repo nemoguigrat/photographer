@@ -1,6 +1,7 @@
 package com.example.photographer.domain;
 
 import com.example.photographer.service.dto.technique.response.LensDto;
+import com.example.photographer.support.TechniqueType;
 import com.example.photographer.support.domain.AbstractTechnique;
 import com.example.photographer.support.domain.Evaluated;
 import lombok.AccessLevel;
@@ -46,6 +47,7 @@ public class Lens extends AbstractTechnique implements Evaluated {
                 .model(this.getModel() != null ? this.getModel().buildDto() : null)
                 .manufacturer(this.getManufacturer() != null ? this.getManufacturer().buildDto() : null)
                 .camera(this.getCamera() != null ? this.getCamera().buildDto() : null)
+                .type(TechniqueType.LENS)
                 .focus(this.getFocus())
                 .rating(this.getRating())
                 .build();

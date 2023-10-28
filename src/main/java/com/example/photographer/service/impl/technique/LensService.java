@@ -7,16 +7,20 @@ import com.example.photographer.repository.ModelRepository;
 import com.example.photographer.repository.technique.CameraRepository;
 import com.example.photographer.repository.technique.LensRepository;
 import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
+import com.example.photographer.service.dto.technique.request.BatteryRequest;
 import com.example.photographer.service.dto.technique.request.LensRequest;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
 import com.example.photographer.service.impl.AbstractTechniqueService;
+import com.example.photographer.support.TechniqueType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -35,15 +39,16 @@ public class LensService extends AbstractTechniqueService<Lens> {
     @Override
     @Transactional
     public void updateTechniqueInfo(TechniqueInfo techniqueInfo, TechniqueRequest techniqueRequest) {
-        if (techniqueRequest.getLenses() == null) {
-            return;
-        }
+        List<LensRequest> requests = techniqueRequest.getTechnique().stream()
+                .filter(t -> t.getType() == TechniqueType.LENS)
+                .map(t -> (LensRequest) t)
+                .collect(Collectors.toList());
 
         Set<Lens> updateSet = new HashSet<>();
         Set<Lens> domainCollection = techniqueInfo.getLenses();
 
-        for (LensRequest request : techniqueRequest.getLenses()) {
-            Lens toUpdate = techniqueInfo.getLenses().stream().filter(b -> b.getId().equals(request.getId()))
+        for (LensRequest request : requests) {
+            Lens toUpdate = domainCollection.stream().filter(b -> b.getId().equals(request.getId()))
                     .findFirst().orElseGet(() -> {
                         Lens domain = new Lens();
                         domain.setTechniqueInfo(techniqueInfo);

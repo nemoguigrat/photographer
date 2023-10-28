@@ -2,6 +2,7 @@ package com.example.photographer.domain;
 
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
+import com.example.photographer.support.UserStatus;
 import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.support.domain.DataType;
 import lombok.*;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -61,8 +63,26 @@ public class Photographer extends BaseEntity {
     @Column
     byte[] image;
 
-    @OneToOne(mappedBy = "photographer")
-    User user;
+    // auth creds
+    @Column
+    @Setter
+    String email;
+
+    @Column
+    @Setter
+    String password;
+
+    @Column(name = "reg_date")
+    LocalDate registrationDate;
+
+    @Column
+    @Setter
+    LocalDateTime lastLoginTime;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    @Setter
+    UserStatus status;
 
     public void updateFrom(PhotographerUpdateRequest request) {
         this.firstname = request.getFirstname();
@@ -83,5 +103,7 @@ public class Photographer extends BaseEntity {
         this.description = request.getDescription();
         this.score = request.getScore();
         this.trainee = request.getTrainee();
+        this.email = request.getEmail();
+        this.status = request.getStatus();
     }
 }

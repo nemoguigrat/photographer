@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-10-28-12-25" author="ivanovna">
+        <addColumn tableName="photographer">
+            <column name="email" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="reg_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_login_time" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            update photographer p set email = u.email,
+                                      password = u.password,
+                                      reg_date = u.reg_date,
+                                      last_login_time = u.last_login_time,
+                                      status = u.status
+                                  from "user" u where p.id = u.photographer_id;
+            delete from spring_session;
+        </sql>
+
+        <renameTable oldTableName="user" newTableName="_user" />
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,5 +1,8 @@
 package com.example.photographer.service.dto.technique;
 
+import com.example.photographer.service.dto.technique.response.*;
+import com.example.photographer.support.TechniqueType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
+@Schema(anyOf = {CameraDto.class, LensDto.class, BatteryDto.class, MemoryDto.class, FlashDto.class})
 public abstract class AbstractTechniqueDto {
 
     Long id;
@@ -24,4 +28,6 @@ public abstract class AbstractTechniqueDto {
     ModelDto model;
 
     Integer rating;
+
+    TechniqueType type;
 }

@@ -7,9 +7,7 @@ import com.example.photographer.service.dto.auth.RegisterRequest;
 import com.example.photographer.service.dto.auth.LoginResponse;
 import com.example.photographer.service.dto.auth.RegistrationResponse;
 import com.example.photographer.domain.Photographer;
-import com.example.photographer.domain.User;
 import com.example.photographer.repository.PhotographerRepository;
-import com.example.photographer.repository.UserRepository;
 import com.example.photographer.service.AuthService;
 import com.example.photographer.support.UserStatus;
 import lombok.AccessLevel;
@@ -35,33 +33,31 @@ public class ApiAuthService implements AuthService {
     AuthenticationProvider apiAuthProvider;
 
     PasswordEncoder passwordEncoder;
-
-    UserRepository userRepository;
-
+    
     PhotographerRepository photographerRepository;
 
     @Override
     @Transactional
     public LoginResponse login(AuthRequest authRequest) {
-        User user = userRepository.findUserByEmail(authRequest.getEmail());
+        Photographer photographer = photographerRepository.findPhotographerByEmail(authRequest.getEmail());
         boolean authenticate = false;
         // не аутентифицируем пользователя, если его не аппровнули
-        if (user.getStatus() == UserStatus.APPROVED) {
+        if (photographer.getStatus() == UserStatus.APPROVED) {
             Authentication authentication = apiAuthProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            user.getId().toString(),
+                            photographer.getId().toString(),
                             authRequest.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            user.setLastLoginTime(LocalDateTime.now());
+            photographer.setLastLoginTime(LocalDateTime.now());
             authenticate = true;
         }
 
         return LoginResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .status(user.getStatus())
+                .id(photographer.getId())
+                .email(photographer.getEmail())
+                .status(photographer.getStatus())
                 .authenticate(authenticate)
                 .build();
     }
@@ -69,24 +65,16 @@ public class ApiAuthService implements AuthService {
     @Override
     @Transactional
     public RegistrationResponse register(RegisterRequest registerRequest) {
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+        if (photographerRepository.existsByEmail(registerRequest.getEmail())) {
             throw new UserAlreadyExists();
         }
         TechniqueInfo techniqueInfo = new TechniqueInfo();
         Photographer photographer = buildPhotographer(registerRequest);
         photographer.setTechniqueInfo(techniqueInfo);
 
-        User user = User.builder()
-                .photographer(photographer)
-                .email(registerRequest.getEmail())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .status(UserStatus.CREATED)
-                .registrationDate(LocalDate.now())
-                .build();
+        photographerRepository.save(photographer);
 
-        userRepository.save(user);
-
-        return RegistrationResponse.builder().id(user.getId()).build();
+        return RegistrationResponse.builder().id(photographer.getId()).build();
     }
 
     private Photographer buildPhotographer(RegisterRequest registerRequest) {
@@ -97,6 +85,10 @@ public class ApiAuthService implements AuthService {
                 .surname(registerRequest.getSurname())
                 .middleName(registerRequest.getMiddleName())
                 .contacts(registerRequest.getContacts())
+                .email(registerRequest.getEmail())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .status(UserStatus.CREATED)
+                .registrationDate(LocalDate.now())
                 .build();
     }
 }

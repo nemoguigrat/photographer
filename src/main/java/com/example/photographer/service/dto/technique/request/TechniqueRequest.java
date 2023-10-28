@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.technique.request;
 
+import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,15 +15,7 @@ public class TechniqueRequest {
 
     Long id;
 
-    List<CameraRequest> cameras;
-
-    List<LensRequest> lenses;
-
-    List<FlashRequest> flashes;
-
-    List<MemoryRequest> memories;
-
-    List<BatteryRequest> batteries;
+    List<AbstractTechniqueRequest> technique;
 
     List<AdditionalTechniqueRequest> additionalTechnique;
 

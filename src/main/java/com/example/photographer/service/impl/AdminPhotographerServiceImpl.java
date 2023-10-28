@@ -2,10 +2,8 @@ package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Photographer;
 import com.example.photographer.domain.TechniqueInfo;
-import com.example.photographer.domain.User;
 import com.example.photographer.exception.UserAlreadyExists;
 import com.example.photographer.repository.PhotographerRepository;
-import com.example.photographer.repository.UserRepository;
 import com.example.photographer.service.AdminPhotographerService;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerCreateRequest;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerFilter;
@@ -30,7 +28,6 @@ import java.time.LocalDate;
 public class AdminPhotographerServiceImpl implements AdminPhotographerService {
 
     PhotographerRepository repository;
-    UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -41,14 +38,14 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
 
     @Override
     public AdminPhotographerResponse find(Long id) {
-        Photographer photographer = repository.findByIdWithUser(id);
+        Photographer photographer = repository.findPhotographerById(id);
         return buildPhotographerResponse(photographer);
     }
 
     @Override
     @Transactional
     public void create(AdminPhotographerCreateRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (repository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExists();
         }
         TechniqueInfo techniqueInfo = new TechniqueInfo();
@@ -60,32 +57,23 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
                 .trainee(request.getTrainee())
                 .description(request.getDescription())
                 .techniqueInfo(techniqueInfo)
-                .build();
-
-        User user = User.builder()
                 .email(request.getEmail())
                 .status(UserStatus.CREATED)
                 .registrationDate(LocalDate.now())
-                .photographer(photographer)
                 .build();
 
-        userRepository.save(user);
+        repository.save(photographer);
     }
 
     @Override
     @Transactional
     public void update(AdminPhotographerUpdateRequest request) {
-        Photographer photographer = repository.findByIdWithUser(request.getId());
+        Photographer photographer = repository.findPhotographerById(request.getId());
 
-        photographer.updateFrom(request);
-
-        User user = photographer.getUser();
-        if (!user.getEmail().equals(request.getEmail()) && userRepository.existsByEmail(request.getEmail())) {
+        if (!photographer.getEmail().equals(request.getEmail()) && repository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExists("Пользователь с таким адресом уже существует!");
         }
-
-        user.setEmail(request.getEmail());
-        user.setStatus(request.getStatus());
+        photographer.updateFrom(request);
     }
 
     @Override
@@ -97,18 +85,18 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
     private AdminPhotographerResponse buildPhotographerResponse(Photographer photographer) {
         return AdminPhotographerResponse.builder()
                 .id(photographer.getId())
-                .email(photographer.getUser().getEmail())
+                .email(photographer.getEmail())
                 .firstname(photographer.getFirstname())
                 .surname(photographer.getSurname())
                 .middleName(photographer.getMiddleName())
                 .contacts(photographer.getContacts())
                 .phone(photographer.getPhone())
                 .birthdate(photographer.getBirthdate())
-                .status(photographer.getUser().getStatus())
+                .status(photographer.getStatus())
                 .trainee(photographer.isTrainee())
                 .score(photographer.getScore())
                 .description(photographer.getDescription())
-                .registrationDate(photographer.getUser().getRegistrationDate())
+                .registrationDate(photographer.getRegistrationDate())
                 .build();
     }
 }
