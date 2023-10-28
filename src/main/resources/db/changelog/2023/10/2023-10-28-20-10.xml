@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-10-28-20-10" author="ivanovna">
+        <addForeignKeyConstraint baseTableName="zone"
+                                 baseColumnNames="event_id"
+                                 constraintName="fk_zone_event_id"
+                                 referencedTableName="event"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="zone" indexName="idx_zone_event_id">
+            <column name="event_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="location"
+                                 baseColumnNames="event_id"
+                                 constraintName="fk_location_event_id"
+                                 referencedTableName="event"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="location" indexName="idx_location_event_id">
+            <column name="event_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="location"
+                                 baseColumnNames="zone_id"
+                                 constraintName="fk_location_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="location" indexName="idx_location_zone_id">
+            <column name="zone_id"/>
+        </createIndex>
+
+
+        <addForeignKeyConstraint baseTableName="activity"
+                                 baseColumnNames="event_id"
+                                 constraintName="fk_activity_event_id"
+                                 referencedTableName="event"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="activity" indexName="idx_activity_event_id">
+            <column name="event_id"/>
+        </createIndex>
+
+        <createIndex unique="true" tableName="activity" indexName="un_activity_code">
+            <column name="activity_code"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="activity"
+                                 baseColumnNames="location_id"
+                                 constraintName="fk_activity_location_id"
+                                 referencedTableName="location"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="activity" indexName="idx_activity_location_id">
+            <column name="location_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
