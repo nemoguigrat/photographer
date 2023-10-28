@@ -6,16 +6,20 @@ import com.example.photographer.repository.ManufacturerRepository;
 import com.example.photographer.repository.ModelRepository;
 import com.example.photographer.repository.technique.CameraRepository;
 import com.example.photographer.service.dto.technique.AbstractTechniqueRequest;
+import com.example.photographer.service.dto.technique.request.BatteryRequest;
 import com.example.photographer.service.dto.technique.request.CameraRequest;
 import com.example.photographer.service.dto.technique.request.TechniqueRequest;
 import com.example.photographer.service.impl.AbstractTechniqueService;
+import com.example.photographer.support.TechniqueType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -29,15 +33,16 @@ public class CameraService extends AbstractTechniqueService<Camera> {
     @Override
     @Transactional
     public void updateTechniqueInfo(TechniqueInfo techniqueInfo, TechniqueRequest techniqueRequest) {
-        if (techniqueRequest.getCameras() == null) {
-            return;
-        }
+        List<CameraRequest> requests = techniqueRequest.getTechnique().stream()
+                .filter(t -> t.getType() == TechniqueType.CAMERA)
+                .map(t -> (CameraRequest) t)
+                .collect(Collectors.toList());
 
         Set<Camera> domainCollection = techniqueInfo.getCameras();
         Set<Camera> updateSet = new HashSet<>();
 
-        for (CameraRequest cameraRequest : techniqueRequest.getCameras()) {
-            Camera toUpdate = techniqueInfo.getCameras().stream().filter(b -> b.getId().equals(cameraRequest.getId()))
+        for (CameraRequest cameraRequest : requests) {
+            Camera toUpdate = domainCollection.stream().filter(b -> b.getId().equals(cameraRequest.getId()))
                     .findFirst().orElseGet(() -> {
                         Camera camera = new Camera();
                         camera.setTechniqueInfo(techniqueInfo);

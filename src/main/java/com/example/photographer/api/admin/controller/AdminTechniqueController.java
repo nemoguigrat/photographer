@@ -50,9 +50,9 @@ public class AdminTechniqueController {
     }
 
     @Operation(summary = "Обновление информации о технике")
-    @PutMapping("/technique/{type}")
-    public void upsertByType(@PathVariable TechniqueType type, @RequestBody AbstractTechniqueRequest request) {
-        techniqueResolverService.getServiceByType(type).updateTechnique(request);
+    @PutMapping("/technique")
+    public void updateByType(@RequestBody AbstractTechniqueRequest request) {
+        techniqueResolverService.getServiceByType(request.getType()).updateTechnique(request);
     }
 
     @Operation(summary = "Удаление техники по типу")

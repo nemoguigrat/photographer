@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.technique.response;
 
+import com.example.photographer.service.dto.technique.AbstractTechniqueDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -14,15 +15,7 @@ public class TechniqueDto {
 
     Long id;
 
-    List<CameraDto> cameras;
-
-    List<LensDto> lenses;
-
-    List<FlashDto> flashes;
-
-    List<MemoryDto> memories;
-
-    List<BatteryDto> batteries;
+    List<AbstractTechniqueDto> technique;
 
     List<AdditionalTechniqueDto> additionalTechnique;
 

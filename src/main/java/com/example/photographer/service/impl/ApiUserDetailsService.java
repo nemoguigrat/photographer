@@ -1,7 +1,7 @@
 package com.example.photographer.service.impl;
 
-import com.example.photographer.domain.User;
-import com.example.photographer.repository.UserRepository;
+import com.example.photographer.domain.Photographer;
+import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.support.UmnUserDetails;
 import com.example.photographer.support.UserStatus;
 import lombok.AccessLevel;
@@ -21,18 +21,18 @@ import java.util.List;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ApiUserDetailsService implements UserDetailsService {
 
-    UserRepository userRepository;
+    PhotographerRepository photographerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserById(Long.parseLong(username));
+        Photographer photographer = photographerRepository.findPhotographerById(Long.parseLong(username));
 
-        if (user.getStatus() != UserStatus.APPROVED) {
+        if (photographer.getStatus() != UserStatus.APPROVED) {
             throw new UsernameNotFoundException("msg");
         }
 
-        String id = user.getId().toString();
-        String password = user.getPassword();
+        String id = photographer.getId().toString();
+        String password = photographer.getPassword();
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
         return new UmnUserDetails(id, password, List.of(grantedAuthority));
     }

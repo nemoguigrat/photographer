@@ -1,6 +1,7 @@
 package com.example.photographer.domain;
 
 import com.example.photographer.service.dto.technique.response.FlashDto;
+import com.example.photographer.support.TechniqueType;
 import com.example.photographer.support.domain.AbstractTechnique;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Flash extends AbstractTechnique {
                 .id(this.getId())
                 .model(this.getModel() != null ? this.getModel().buildDto() : null)
                 .manufacturer(this.getManufacturer() != null ? this.getManufacturer().buildDto() : null)
+                .type(TechniqueType.FLASH)
                 .build();
     }
 }
