@@ -18,6 +18,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -72,7 +78,7 @@ public class SecurityConfig {
     public SecurityFilterChain webSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
+                .cors().and()
                 .antMatcher(PATH_API)
                 .authenticationProvider(apiAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
@@ -97,7 +103,7 @@ public class SecurityConfig {
     public SecurityFilterChain adminSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
+                .cors().and()
                 .antMatcher(PATH_ADMIN)
                 .authenticationProvider(adminAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
@@ -120,6 +126,7 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .httpBasic().disable()
                 .logout().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -132,5 +139,16 @@ public class SecurityConfig {
         log.info("deafult is configured");
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
