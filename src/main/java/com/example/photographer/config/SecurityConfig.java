@@ -72,6 +72,7 @@ public class SecurityConfig {
     public SecurityFilterChain webSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .antMatcher(PATH_API)
                 .authenticationProvider(apiAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
@@ -96,6 +97,7 @@ public class SecurityConfig {
     public SecurityFilterChain adminSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .antMatcher(PATH_ADMIN)
                 .authenticationProvider(adminAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
