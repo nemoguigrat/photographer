@@ -38,6 +38,7 @@ public class PhotographerServiceImpl implements PhotographerService {
                 .phone(photographer.getPhone())
                 .contacts(photographer.getContacts())
                 .score(photographer.getScore())
+                .portfolio(photographer.getPortfolio())
                 .build();
     }
 
