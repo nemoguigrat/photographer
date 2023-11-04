@@ -1,4 +1,4 @@
-package com.example.photographer.service.impl;
+package com.example.photographer.service.impl.auth;
 
 import com.example.photographer.service.dto.auth.AuthRequest;
 import com.example.photographer.service.dto.auth.RegisterRequest;

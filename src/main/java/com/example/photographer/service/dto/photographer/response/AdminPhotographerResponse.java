@@ -2,6 +2,7 @@ package com.example.photographer.service.dto.photographer.response;
 
 import com.example.photographer.support.ContactType;
 import com.example.photographer.support.UserStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class AdminPhotographerResponse {
 
     String phone;
 
+    @Schema(ref = "ContactTypes")
     Map<ContactType, String> contacts;
 
     Integer score;

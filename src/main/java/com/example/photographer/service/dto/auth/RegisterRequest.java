@@ -1,6 +1,7 @@
 package com.example.photographer.service.dto.auth;
 
 import com.example.photographer.support.ContactType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -29,6 +30,7 @@ public class RegisterRequest {
     @NotBlank
     String phone;
 
+    @Schema(ref = "ContactTypes")
     Map<ContactType, String> contacts;
 
     @NotBlank

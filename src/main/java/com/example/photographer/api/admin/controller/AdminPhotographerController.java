@@ -1,9 +1,9 @@
 package com.example.photographer.api.admin.controller;
 
 import com.example.photographer.service.AdminPhotographerService;
+import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerCreateRequest;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerFilter;
-import com.example.photographer.service.dto.photographer.response.AdminPhotographerList;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.response.AdminPhotographerResponse;
 import com.example.photographer.support.api.AdminApi;
@@ -25,7 +25,7 @@ public class AdminPhotographerController {
     AdminPhotographerService adminPhotographerService;
 
     @GetMapping("/photographer/all")
-    public AdminPhotographerList findAllPhotographers(@ParameterObject AdminPhotographerFilter filter, @ParameterObject Pageable pageable) {
+    public AdminListResponse<AdminPhotographerResponse> findAllPhotographers(@ParameterObject AdminPhotographerFilter filter, @ParameterObject Pageable pageable) {
         return adminPhotographerService.findAll(filter, pageable);
     }
 

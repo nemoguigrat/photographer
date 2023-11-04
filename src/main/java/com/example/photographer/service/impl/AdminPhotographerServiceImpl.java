@@ -5,9 +5,9 @@ import com.example.photographer.domain.TechniqueInfo;
 import com.example.photographer.exception.UserAlreadyExists;
 import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.service.AdminPhotographerService;
+import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerCreateRequest;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerFilter;
-import com.example.photographer.service.dto.photographer.response.AdminPhotographerList;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.response.AdminPhotographerResponse;
 import com.example.photographer.support.UserStatus;
@@ -31,9 +31,9 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public AdminPhotographerList findAll(AdminPhotographerFilter filter, Pageable pageable) {
+    public AdminListResponse<AdminPhotographerResponse> findAll(AdminPhotographerFilter filter, Pageable pageable) {
         Page<Photographer> photographers = repository.findPhotographersWithFilter(pageable);
-        return AdminPhotographerList.of(photographers.map(this::buildPhotographerResponse));
+        return AdminListResponse.of(photographers.map(this::buildPhotographerResponse));
     }
 
     @Override

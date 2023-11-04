@@ -44,3 +44,7 @@ logging:
     sql: debug
     root: info
     web: debug
+
+default:
+  advice:
+    debug: true
