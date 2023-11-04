@@ -1,4 +1,4 @@
-package com.example.photographer.service.impl;
+package com.example.photographer.service.impl.auth;
 
 import com.example.photographer.domain.TechniqueInfo;
 import com.example.photographer.exception.UserAlreadyExists;

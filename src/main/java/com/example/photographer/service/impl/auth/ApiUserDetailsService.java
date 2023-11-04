@@ -1,4 +1,4 @@
-package com.example.photographer.service.impl;
+package com.example.photographer.service.impl.auth;
 
 import com.example.photographer.domain.Photographer;
 import com.example.photographer.repository.PhotographerRepository;

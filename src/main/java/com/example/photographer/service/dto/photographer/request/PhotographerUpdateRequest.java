@@ -1,6 +1,7 @@
 package com.example.photographer.service.dto.photographer.request;
 
 import com.example.photographer.support.ContactType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class PhotographerUpdateRequest {
 
     String phone;
 
+    @Schema(ref = "ContactTypes")
     Map<ContactType, String> contacts;
 
     String portfolio;
