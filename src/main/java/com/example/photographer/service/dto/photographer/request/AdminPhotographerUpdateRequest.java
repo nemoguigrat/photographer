@@ -46,4 +46,6 @@ public class AdminPhotographerUpdateRequest {
 
     @NotNull
     Boolean trainee;
+
+    String portfolio;
 }

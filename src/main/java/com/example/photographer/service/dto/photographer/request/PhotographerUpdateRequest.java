@@ -28,4 +28,6 @@ public class PhotographerUpdateRequest {
     String phone;
 
     Map<String, String> contacts;
+
+    String portfolio;
 }

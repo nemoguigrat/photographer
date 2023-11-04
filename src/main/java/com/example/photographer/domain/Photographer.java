@@ -63,6 +63,9 @@ public class Photographer extends BaseEntity {
     @Column
     byte[] image;
 
+    @Column
+    String portfolio;
+
     // auth creds
     @Column
     @Setter
@@ -91,6 +94,7 @@ public class Photographer extends BaseEntity {
         this.birthdate = request.getBirthdate();
         this.contacts = request.getContacts();
         this.phone = request.getPhone();
+        this.portfolio = request.getPortfolio();
     }
 
     public void updateFrom(AdminPhotographerUpdateRequest request) {
@@ -105,5 +109,6 @@ public class Photographer extends BaseEntity {
         this.trainee = request.getTrainee();
         this.email = request.getEmail();
         this.status = request.getStatus();
+        this.portfolio = request.getPortfolio();
     }
 }
