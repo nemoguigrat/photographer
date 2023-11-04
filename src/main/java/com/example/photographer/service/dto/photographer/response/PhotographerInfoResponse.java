@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.photographer.response;
 
+import com.example.photographer.support.ContactType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class PhotographerInfoResponse {
 
     String phone;
 
-    Map<String, String> contacts;
+    Map<ContactType, String> contacts;
 
     Integer score;
 }

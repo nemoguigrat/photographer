@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.photographer.request;
 
+import com.example.photographer.support.ContactType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +28,7 @@ public class PhotographerUpdateRequest {
 
     String phone;
 
-    Map<String, String> contacts;
+    Map<ContactType, String> contacts;
+
+    String portfolio;
 }

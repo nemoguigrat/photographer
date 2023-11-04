@@ -2,9 +2,11 @@ package com.example.photographer.domain;
 
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
+import com.example.photographer.support.ContactType;
 import com.example.photographer.support.UserStatus;
 import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.support.domain.DataType;
+import io.swagger.v3.oas.models.info.Contact;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -48,7 +50,7 @@ public class Photographer extends BaseEntity {
 
     @Type(type = DataType.JSONB)
     @Column(name = "contacts", columnDefinition = DataType.JSONB)
-    Map<String, String> contacts;
+    Map<ContactType, String> contacts;
 
     @Column
     boolean trainee;
@@ -62,6 +64,9 @@ public class Photographer extends BaseEntity {
     @Lob
     @Column
     byte[] image;
+
+    @Column
+    String portfolio;
 
     // auth creds
     @Column
@@ -91,6 +96,7 @@ public class Photographer extends BaseEntity {
         this.birthdate = request.getBirthdate();
         this.contacts = request.getContacts();
         this.phone = request.getPhone();
+        this.portfolio = request.getPortfolio();
     }
 
     public void updateFrom(AdminPhotographerUpdateRequest request) {
@@ -105,5 +111,6 @@ public class Photographer extends BaseEntity {
         this.trainee = request.getTrainee();
         this.email = request.getEmail();
         this.status = request.getStatus();
+        this.portfolio = request.getPortfolio();
     }
 }
