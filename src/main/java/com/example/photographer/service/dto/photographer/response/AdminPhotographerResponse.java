@@ -42,4 +42,6 @@ public class AdminPhotographerResponse {
     String description;
 
     boolean trainee;
+
+    String portfolio;
 }

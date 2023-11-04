@@ -33,4 +33,6 @@ public class PhotographerInfoResponse {
     Map<ContactType, String> contacts;
 
     Integer score;
+
+    String portfolio;
 }

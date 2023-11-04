@@ -97,6 +97,7 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
                 .score(photographer.getScore())
                 .description(photographer.getDescription())
                 .registrationDate(photographer.getRegistrationDate())
+                .portfolio(photographer.getPortfolio())
                 .build();
     }
 }
