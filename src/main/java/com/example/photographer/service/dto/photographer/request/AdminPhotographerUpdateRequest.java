@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.photographer.request;
 
+import com.example.photographer.support.ContactType;
 import com.example.photographer.support.UserStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +36,7 @@ public class AdminPhotographerUpdateRequest {
     @NotNull
     String phone;
 
-    Map<String, String> contacts;
+    Map<ContactType, String> contacts;
 
     Integer score;
 

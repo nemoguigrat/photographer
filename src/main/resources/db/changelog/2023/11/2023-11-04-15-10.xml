@@ -5,11 +5,18 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="2023-10-28-20-10" author="ivanovna">
+    <changeSet id="2023-11-04-15-10" author="ivanovna">
         <addColumn tableName="photographer">
-            <column name="portfolio">
+            <column name="portfolio" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
         </addColumn>
+
+        <dropTable tableName="empty_table" />
+        <dropTable tableName="_user" />
+
+        <sql>
+            update photographer set contacts = null
+        </sql>
     </changeSet>
 </databaseChangeLog>

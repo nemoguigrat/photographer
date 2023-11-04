@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.auth;
 
+import com.example.photographer.support.ContactType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -28,7 +29,7 @@ public class RegisterRequest {
     @NotBlank
     String phone;
 
-    Map<String, String> contacts;
+    Map<ContactType, String> contacts;
 
     @NotBlank
     String email;
