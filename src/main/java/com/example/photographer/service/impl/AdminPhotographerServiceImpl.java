@@ -31,12 +31,14 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
     PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional(readOnly = true)
     public AdminListResponse<AdminPhotographerResponse> findAll(AdminPhotographerFilter filter, Pageable pageable) {
         Page<Photographer> photographers = repository.findPhotographersWithFilter(pageable);
         return AdminListResponse.of(photographers.map(this::buildPhotographerResponse));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AdminPhotographerResponse find(Long id) {
         Photographer photographer = repository.findPhotographerById(id);
         return buildPhotographerResponse(photographer);
