@@ -34,6 +34,10 @@ public class Activity extends BaseEntity {
     @JoinColumn(name = "event_id")
     Event event;
 
+    @ManyToOne
+    @JoinColumn(name = "zone_id")
+    Zone zone;
+
     @Column
     String name;
 
@@ -45,9 +49,6 @@ public class Activity extends BaseEntity {
 
     @Column
     LocalDateTime endTime;
-
-    @Column
-    String address;
 
     @Column
     Integer photographersCount;

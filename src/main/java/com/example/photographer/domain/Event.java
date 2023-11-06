@@ -26,6 +26,9 @@ import static lombok.AccessLevel.PRIVATE;
 public class Event extends BaseEntity {
 
     @Column
+    Boolean published;
+
+    @Column
     String name;
 
     @Column
@@ -60,7 +63,8 @@ public class Event extends BaseEntity {
         this.driveLink = request.getDriveLink();
         this.startTime = request.getStartTime();
         this.endTime = request.getEndTime();
-        this.timeZone = TimeZone.getTimeZone(request.getTimeZone());
+        this.timeZone = request.getTimeZone() != null ? TimeZone.getTimeZone(request.getTimeZone()) : null;
         this.photographersCount = request.getPhotographersCount();
+        this.published = request.getPublished();
     }
 }

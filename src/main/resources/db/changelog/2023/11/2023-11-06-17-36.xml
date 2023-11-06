@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-11-06-17-36" author="ivanovna">
+        <addColumn tableName="event">
+            <column name="published" type="boolean">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
+        <addColumn tableName="activity">
+            <column name="zone_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
+        <dropColumn tableName="activity" columnName="address" />
+        <dropColumn tableName="location" columnName="type" />
+
+        <addColumn tableName="location">
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
+        <createTable tableName="photographer_schedule">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_schedule_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photographer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="published" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_update_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="photographer_schedule_part">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_schedule_part_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photographer_schedule_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_update_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="conflict" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="photographer_zone_info">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_zone_info_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photographer_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="priority" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="photographer_freetime">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_freetime_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photographer_schedule_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_update_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

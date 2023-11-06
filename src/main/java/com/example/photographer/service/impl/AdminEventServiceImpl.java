@@ -65,7 +65,7 @@ public class AdminEventServiceImpl implements AdminEventService {
                 .driveLink(event.getDriveLink())
                 .startTime(event.getStartTime())
                 .endTime(event.getEndTime())
-                .timeZone(event.getTimeZone().toZoneId())
+                .timeZone(event.getTimeZone() != null ? event.getTimeZone().toZoneId() : null)
                 .photographersCount(event.getPhotographersCount())
                 .build();
     }
