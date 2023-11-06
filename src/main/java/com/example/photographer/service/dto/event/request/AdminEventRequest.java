@@ -29,5 +29,7 @@ public class AdminEventRequest {
 
     String driveLink;
 
+    Boolean published;
+
     Integer photographersCount;
 }

@@ -30,4 +30,6 @@ public class AdminEventResponse {
     String driveLink;
 
     Integer photographersCount;
+
+    Boolean published;
 }

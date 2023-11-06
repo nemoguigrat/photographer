@@ -1,6 +1,6 @@
 package com.example.photographer.api.advice;
 
-import com.example.photographer.exception.FileEmptyException;
+import com.example.photographer.exception.DeletionException;
 import com.example.photographer.exception.UserAlreadyExists;
 import com.example.photographer.support.exception.ApiError;
 import org.springframework.core.Ordered;
@@ -14,15 +14,15 @@ import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class FileEmptyAdvice {
+public class DeletionAdvice {
 
     @ExceptionHandler({
-            FileEmptyException.class
+            DeletionException.class
     })
-    public ResponseEntity<ApiError> handleFileEmpty(FileEmptyException ex) {
-        String message = ex.getMessage() == null ? "Файл не может быть пустым или остутствовать" : ex.getMessage();
+    public ResponseEntity<ApiError> handleDeletionException(DeletionException ex) {
+        String message = ex.getMessage() == null ? "Невозможно удалить!" : ex.getMessage();
 
         return status(BAD_REQUEST)
-                .body(ApiError.of("FILE_EMPTY", message));
+                .body(ApiError.of("DELETION_ERROR", message));
     }
 }

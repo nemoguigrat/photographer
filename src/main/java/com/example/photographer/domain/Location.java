@@ -39,10 +39,10 @@ public class Location extends BaseEntity {
     LocalDateTime endTime;
 
     @Column
-    String manager;
+    String address;
 
-    @Enumerated(EnumType.STRING)
-    LocationType type;
+    @Column
+    String manager;
 
     @ManyToOne
     @JoinColumn(name = "zone_id")
