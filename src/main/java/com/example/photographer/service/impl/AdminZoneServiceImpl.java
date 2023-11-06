@@ -15,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,29 +25,34 @@ public class AdminZoneServiceImpl implements AdminZoneService {
     ZoneRepository zoneRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public AdminListResponse<AdminZoneResponse> findAll(AdminZoneFilter filter, Pageable pageable) {
         Page<Zone> events = zoneRepository.findZoneWithFilter(pageable);
         return AdminListResponse.of(events.map(this::buildResponse));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AdminZoneResponse find(Long id) {
         Zone zone = zoneRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         return buildResponse(zone);
     }
 
     @Override
+    @Transactional
     public void create(AdminZoneRequest request) {
         zoneRepository.save(new Zone(request));
     }
 
     @Override
+    @Transactional
     public void update(Long id, AdminZoneRequest request) {
         Zone zone = zoneRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         zone.applyFromRequest(request);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         if (zoneRepository.existsLinkedData(id)) {
             throw new DeletionException("Невозможно удалить зону пока с ней связаны другие записи!");
