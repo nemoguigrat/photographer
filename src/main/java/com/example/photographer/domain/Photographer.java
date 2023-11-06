@@ -63,7 +63,13 @@ public class Photographer extends BaseEntity {
 
     @Lob
     @Column
+    @Setter
+    @Type(type = DataType.IMAGE)
     byte[] image;
+
+    @Column
+    @Setter
+    String contentType;
 
     @Column
     String portfolio;
