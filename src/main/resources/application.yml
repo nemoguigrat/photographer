@@ -48,3 +48,6 @@ logging:
 default:
   advice:
     debug: true
+
+photographers:
+  default-image: classpath:/static/default.jpg

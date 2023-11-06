@@ -1,7 +1,9 @@
 package com.example.photographer.config;
 
+import com.example.photographer.config.properties.PhotographerProperties;
 import com.example.photographer.support.converter.StringToEnumConverter;
 import com.example.photographer.support.TechniqueType;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableSpringDataWebSupport
+@EnableConfigurationProperties(PhotographerProperties.class)
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
