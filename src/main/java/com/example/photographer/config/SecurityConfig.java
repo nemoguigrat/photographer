@@ -5,10 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -66,12 +65,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SpringSessionRememberMeServices rememberMeServices() {
-        SpringSessionRememberMeServices rememberMeServices =
-                new SpringSessionRememberMeServices();
-        // optionally customize
-        rememberMeServices.setAlwaysRemember(true);
-        return rememberMeServices;
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieMaxAge(28800);
+        return serializer;
     }
 
     @Bean
@@ -89,12 +86,11 @@ public class SecurityConfig {
                 .exceptionHandling(customizer -> customizer
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .logout(customizer -> customizer
-                        .logoutUrl("/api/logout")
+                        .logoutUrl("/api/auth/logout")
                         .deleteCookies()
                         .invalidateHttpSession(true)
-                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()))
-                .rememberMe().rememberMeServices(rememberMeServices());
-
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                );
         log.info("web is configured");
         return http.build();
     }
@@ -114,8 +110,10 @@ public class SecurityConfig {
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .logout(customizer -> customizer
                         .logoutUrl("/admin/auth/logout")
+                        .deleteCookies()
                         .invalidateHttpSession(true)
-                        .permitAll());
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                );
 
         log.info("admin is configured");
 

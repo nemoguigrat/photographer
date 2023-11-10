@@ -25,7 +25,4 @@ public class AdminAuthController {
     public LoginResponse login(@RequestBody AuthRequest authRequest) {
         return adminAuthService.login(authRequest);
     }
-
-    @GetMapping("/auth/logout")
-    public void logout() {} // swagger doc
 }
