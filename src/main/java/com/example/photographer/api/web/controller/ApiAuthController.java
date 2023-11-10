@@ -35,7 +35,4 @@ public class ApiAuthController {
     public RegistrationResponse register(@Valid @RequestBody RegisterRequest authRequest) {
         return apiAuthService.register(authRequest);
     }
-
-    @GetMapping("/auth/logout")
-    public void logout() {} // swagger doc
 }
