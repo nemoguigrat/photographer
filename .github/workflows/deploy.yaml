@@ -40,7 +40,7 @@ jobs:
 
       - name: Setup keys
         run: |
-          mkdir ~/keystore
+          mkdir -p ~/keystore
           echo "$CERT_KEYSTORE" > photographers.jks.asc
           gpg -d --passphrase "$ENCODED_KEYSTORE_PASSWORD" --batch photographers.jks.asc > ~/keystore/photographers.jks
 
