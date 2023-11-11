@@ -89,6 +89,7 @@ public class ApiAuthService implements AuthService {
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .status(UserStatus.CREATED)
                 .registrationDate(LocalDate.now())
+                .portfolio(registerRequest.getPortfolio())
                 .build();
     }
 }

@@ -102,7 +102,9 @@ public class SecurityConfig {
     public SecurityFilterChain adminSecurityConfig(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().and()
+                .cors(customizer ->
+                        customizer.configurationSource(corsConfigurationSource())
+                )
                 .antMatcher(PATH_ADMIN)
                 .authenticationProvider(adminAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
@@ -145,7 +147,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

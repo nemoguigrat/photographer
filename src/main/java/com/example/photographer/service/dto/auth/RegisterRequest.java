@@ -38,4 +38,6 @@ public class RegisterRequest {
 
     @NotBlank
     String password;
+
+    String portfolio;
 }
