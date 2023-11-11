@@ -1,5 +1,6 @@
 package com.example.photographer.service.dto.event.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -23,6 +24,7 @@ public class AdminEventRequest {
 
     LocalDateTime endTime;
 
+    @Schema(type = "String", example = "Asia/Yerevan")
     ZoneId timeZone;
 
     String address;
