@@ -52,11 +52,12 @@ jobs:
       POSTGRES_DB: ${{ vars.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
       POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-      KEY_STORE_PATH: file:~/keystore/photographers.jks
       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
       - name: docker-compose
-        run: docker-compose up -d
+        run: |
+          echo KEY_STORE_PATH = file:~/keystore/photographers.jks
+          docker-compose up -d
