@@ -34,6 +34,11 @@ jobs:
       - name: Remove unused data
         run: docker system prune -a -f
 
+      - name: Setup keys
+        run: |
+          echo "${{ secrets.CERT_KEYSTORE }}" > photographers.jks.asc
+          gpg -d --passphrase "${{ secrets.ENCODED_KEYSTORE_PASSWORD }}" --batch photographers.jks.asc > keystore/photographers.jks
+
   deploy:
     runs-on: self-hosted
     needs: prepare-environment
@@ -42,6 +47,9 @@ jobs:
       POSTGRES_DB: ${{ vars.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
       POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+      KEY_STORE_PATH: file:./keystore/photographers.jks
+      KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
