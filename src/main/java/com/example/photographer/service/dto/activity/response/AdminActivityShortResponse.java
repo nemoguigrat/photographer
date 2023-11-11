@@ -17,4 +17,6 @@ public class AdminActivityShortResponse {
     LocalDateTime startTime;
 
     LocalDateTime endTime;
+
+    String activityCode;
 }
