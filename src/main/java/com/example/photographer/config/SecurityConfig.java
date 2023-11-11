@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -70,7 +69,7 @@ public class SecurityConfig {
         serializer.setCookieMaxAge(28800);
         serializer.setUseHttpOnlyCookie(false);
         serializer.setSameSite("None");
-//        serializer.setUseSecureCookie(true);
+        serializer.setUseSecureCookie(true);
         return serializer;
     }
 
@@ -149,7 +148,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(List.of("*"));
 
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]", "https://localhost:[*]", "https://shumakooov.github.io"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

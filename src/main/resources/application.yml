@@ -1,3 +1,12 @@
+server:
+  ssl:
+    key-store: ${KEY_STORE_PATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: JKS
+    key-alias: photographers
+    key-password: ${KEY_PASSWORD}
+    enabled: true
+
 spring:
   application:
     name: photographer
