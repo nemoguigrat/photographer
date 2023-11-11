@@ -70,7 +70,7 @@ public class SecurityConfig {
         serializer.setCookieMaxAge(28800);
         serializer.setUseHttpOnlyCookie(false);
         serializer.setSameSite("None");
-        serializer.setUseSecureCookie(true);
+//        serializer.setUseSecureCookie(true);
         return serializer;
     }
 
