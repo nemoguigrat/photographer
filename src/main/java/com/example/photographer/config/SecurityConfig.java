@@ -68,6 +68,7 @@ public class SecurityConfig {
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieMaxAge(28800);
+        serializer.setUseHttpOnlyCookie(false);
         return serializer;
     }
 
