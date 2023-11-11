@@ -40,8 +40,9 @@ jobs:
 
       - name: Setup keys
         run: |
-          echo $CERT_KEYSTORE > photographers.jks.asc
-          gpg -d --passphrase $ENCODED_KEYSTORE_PASSWORD --batch photographers.jks.asc > /home/keystore/photographers.jks
+          mkdir /home/keystore
+          echo "$CERT_KEYSTORE" > photographers.jks.asc
+          gpg -d --passphrase "$ENCODED_KEYSTORE_PASSWORD" --batch photographers.jks.asc > /home/keystore/photographers.jks
 
   deploy:
     runs-on: self-hosted
