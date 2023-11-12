@@ -60,5 +60,5 @@ jobs:
       - name: docker-compose
         run: |
           cp ~/keystore/photographers.jks ./src/main/resources/
-          echo KEY_STORE_PATH = classpath:photographers.jks
+          export KEY_STORE_PATH=classpath:photographers.jks
           docker-compose up -d
