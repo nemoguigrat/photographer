@@ -59,5 +59,6 @@ jobs:
         uses: actions/checkout@v3
       - name: docker-compose
         run: |
-          echo KEY_STORE_PATH = file:/home/gradle/source/keystore/photographers.jks
+          cp ~/keystore/photographers.jks ./src/main/resources/
+          echo KEY_STORE_PATH = classpath:photographers.jks
           docker-compose up -d
