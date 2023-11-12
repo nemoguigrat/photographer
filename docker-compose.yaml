@@ -17,6 +17,7 @@ services:
     container_name: photographer
     volumes:
       - service-logs:/home/gradle/source/logs
+      - /home/sharo/keystore:/home/gradle/source/keystore
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
