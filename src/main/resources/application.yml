@@ -1,11 +1,8 @@
 server:
   ssl:
-    key-store: ${KEY_STORE_PATH:classpath:photographers.jks}
-    key-store-password: ${KEY_STORE_PASSWORD}
-    key-store-type: JKS
-    key-alias: photographers
-    key-password: ${KEY_PASSWORD}
     enabled: true
+    certificate-private-key: ${CERT_KEY_PATH}
+    certificate: ${CERT_PATH}
 
 spring:
   application:

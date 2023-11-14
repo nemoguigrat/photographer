@@ -27,8 +27,9 @@ jobs:
     needs: test
     environment: deploy-env
     env:
-      CERT_KEYSTORE: ${{ secrets.CERT_KEYSTORE }}
-      ENCODED_KEYSTORE_PASSWORD: ${{ secrets.ENCODED_KEYSTORE_PASSWORD }}
+      CERT_FILE: ${{ secrets.CERT_FILE }}
+      CERT_KEY_FILE: ${{ secrets.CERT_KEY_FILE }}
+      CERT_PASS: ${{ secrets.CERT_PASS }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
@@ -41,8 +42,10 @@ jobs:
       - name: Setup keys
         run: |
           mkdir -p ~/keystore
-          echo "$CERT_KEYSTORE" > photographers.jks.asc
-          gpg -d --passphrase "$ENCODED_KEYSTORE_PASSWORD" --batch photographers.jks.asc > ~/keystore/photographers.jks
+          echo "$CERT_FILE" > photographers-cert.pem.asc
+          echo "$CERT_KEY_FILE" > photographers-key.pem.asc
+          gpg -d --passphrase "$CERT_PASS" --batch photographers-cert.pem.asc > ~/keystore/photographers-cert.pem
+          gpg -d --passphrase "$CERT_PASS" --batch photographers-key.pem.asc > ~/keystore/photographers-key.pem
 
   deploy:
     runs-on: self-hosted
@@ -52,13 +55,13 @@ jobs:
       POSTGRES_DB: ${{ vars.POSTGRES_DB }}
       POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
       POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-      KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
       - name: docker-compose
         run: |
-          cp ~/keystore/photographers.jks ./src/main/resources/
-          export KEY_STORE_PATH=classpath:photographers.jks
+          cp ~/keystore/photographers-key.pem ./src/main/resources/
+          cp ~/keystore/photographers-cert.pem ./src/main/resources/
+          export CERT_KEY_PATH=classpath:photographers-key.pem
+          export CERT_PATH=classpath:photographers-cert.pem
           docker-compose up -d
