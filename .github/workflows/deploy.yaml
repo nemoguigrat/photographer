@@ -25,7 +25,6 @@ jobs:
   prepare-environment:
     runs-on: self-hosted
     needs: test
-    environment: deploy-env
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
