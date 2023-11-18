@@ -1,12 +1,10 @@
 package com.example.photographer.service.dto.activity.response;
 
 import com.example.photographer.support.ShootingType;
-import com.example.photographer.support.domain.ShootingTime;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -14,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminActivityResponse {
+
+    Long id;
 
     Long locationId;
 
@@ -33,7 +33,7 @@ public class AdminActivityResponse {
 
     Integer priority;
 
-    List<ShootingTime> shootingTime;
+    Integer shootingTime;
 
     ShootingType shootingType;
 

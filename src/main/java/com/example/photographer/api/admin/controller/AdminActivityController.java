@@ -11,9 +11,11 @@ import com.example.photographer.service.dto.activity.response.AdminActivityShort
 import com.example.photographer.support.api.AdminApi;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -26,12 +28,12 @@ public class AdminActivityController {
     AdminActivityService adminActivityService;
 
     @GetMapping("/activity/short/all")
-    List<AdminActivityShortResponse> findActivityShortList(AdminActivityShortFilter filter) {
+    List<AdminActivityShortResponse> findActivityShortList(@Valid @ParameterObject @ModelAttribute AdminActivityShortFilter filter) {
         return adminActivityService.findActivityShortList(filter);
     }
 
     @GetMapping("/activity/all")
-    AdminListResponse<AdminActivityResponse> findActivityList(AdminActivityFilter filter, Pageable pageable) {
+    AdminListResponse<AdminActivityResponse> findActivityList(@ParameterObject AdminActivityFilter filter, @ParameterObject Pageable pageable) {
         return adminActivityService.findActivityList(filter, pageable);
     }
 
@@ -41,17 +43,17 @@ public class AdminActivityController {
     }
 
     @PostMapping("/activity")
-    void create(AdminActivityRequest request) {
+    void create(@RequestBody AdminActivityRequest request) {
         adminActivityService.create(request);
     }
 
     @PutMapping("/activity/{id}")
-    void update(@PathVariable Long id) {
-        adminActivityService.update(id);
+    void update(@PathVariable Long id, @RequestBody AdminActivityRequest request) {
+        adminActivityService.update(id, request);
     }
 
     @PutMapping("/activity/batch")
-    void updateInBatch(List<AdminActivityBatchUpdateRequest> requests) {
+    void updateInBatch(@RequestBody List<AdminActivityBatchUpdateRequest> requests) {
         adminActivityService.updateInBatch(requests);
     }
 

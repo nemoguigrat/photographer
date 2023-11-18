@@ -21,7 +21,7 @@ public interface AdminActivityService {
 
     void create(AdminActivityRequest request);
 
-    void update(Long id);
+    void update(Long id, AdminActivityRequest request);
 
     void updateInBatch(List<AdminActivityBatchUpdateRequest> requests);
 
