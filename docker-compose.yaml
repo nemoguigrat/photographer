@@ -2,8 +2,8 @@ services:
   postgres:
     container_name: postgres
     image: 'postgres:latest'
-    volumes:
-      - db-data:/var/lib/postgresql/data
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -15,8 +15,8 @@ services:
     depends_on:
       - postgres
     container_name: photographer
-    volumes:
-      - service-logs:/home/gradle/source/logs
+#    volumes:
+#      - service-logs:/home/gradle/source/logs
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -29,16 +29,16 @@ services:
     ports:
       - 8080:8080
 
-volumes:
-  db-data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ~/db_data
-      o: bind
-  service-logs:
-    driver: local
-    driver_opts:
-      type: none
-      device: ~/logs
-      o: bind
+#volumes:
+#  db-data:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: ~/db_data
+#      o: bind
+#  service-logs:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: ~/logs
+#      o: bind
