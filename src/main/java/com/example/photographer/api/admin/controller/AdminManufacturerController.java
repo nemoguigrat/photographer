@@ -26,7 +26,7 @@ public class AdminManufacturerController {
         return manufacturerService.findManufacturerByType(type);
     }
 
-    @Operation(summary = "Обновление или создание нового производителя")
+    @Operation(summary = "Обновление или создание нового производителя", description = "id не обязательно")
     @PostMapping("/technique/manufacturer")
     public void upsertManufacturer(@RequestBody ManufacturerDto manufacturerDto) {
         manufacturerService.upsertManufacturer(manufacturerDto);

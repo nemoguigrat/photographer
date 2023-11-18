@@ -12,7 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AdminActivityShortResponse {
 
+    Long id;
+
     String name;
+
+    String description;
+
+    Integer priority;
 
     LocalDateTime startTime;
 

@@ -1,6 +1,10 @@
 server:
   ssl:
-    enabled: false
+    enabled: true
+    key-store-type: PKCS12
+    key-store-password: password
+    key-store: file:./keystore/keystore.p12
+    key-alias: tomcat
 
 spring:
   datasource:
