@@ -33,10 +33,10 @@ volumes:
   db-data:
     driver_opts:
       type: none
-      device: /home/db_data
+      device: ~/db_data
       o: bind
   service-logs:
     driver_opts:
       type: none
-      device: /home/logs
+      device: ~/logs
       o: bind
