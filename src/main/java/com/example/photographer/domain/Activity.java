@@ -5,10 +5,7 @@ import com.example.photographer.support.ShootingType;
 import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.support.domain.DataType;
 import com.example.photographer.support.domain.ShootingTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.Type;
@@ -29,16 +26,19 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Activity extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
+    @Setter
     Location location;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
+    @Setter
     Event event;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zone_id")
+    @Setter
     Zone zone;
 
     @Column
@@ -48,9 +48,11 @@ public class Activity extends BaseEntity {
     String description;
 
     @Column
+    @Setter
     LocalDateTime startTime;
 
     @Column
+    @Setter
     LocalDateTime endTime;
 
     @Column

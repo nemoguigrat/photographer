@@ -2,10 +2,12 @@ package com.example.photographer.api.admin.controller;
 
 import com.example.photographer.service.AdminActivityService;
 import com.example.photographer.service.dto.AdminListResponse;
+import com.example.photographer.service.dto.EntityIdList;
 import com.example.photographer.service.dto.activity.request.AdminActivityBatchUpdateRequest;
 import com.example.photographer.service.dto.activity.request.AdminActivityFilter;
 import com.example.photographer.service.dto.activity.request.AdminActivityRequest;
 import com.example.photographer.service.dto.activity.request.AdminActivityShortFilter;
+import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
 import com.example.photographer.support.api.AdminApi;
@@ -28,7 +30,7 @@ public class AdminActivityController {
     AdminActivityService adminActivityService;
 
     @GetMapping("/activity/short/all")
-    List<AdminActivityShortResponse> findActivityShortList(@Valid @ParameterObject @ModelAttribute AdminActivityShortFilter filter) {
+    List<AdminActivityShortResponse> findActivityShortList(@Valid @ParameterObject AdminActivityShortFilter filter) {
         return adminActivityService.findActivityShortList(filter);
     }
 
@@ -53,8 +55,13 @@ public class AdminActivityController {
     }
 
     @PutMapping("/activity/batch")
-    void updateInBatch(@RequestBody List<AdminActivityBatchUpdateRequest> requests) {
-        adminActivityService.updateInBatch(requests);
+    List<ActivityConflictResponse> updateInBatch(@RequestBody List<AdminActivityBatchUpdateRequest> requests) {
+        return adminActivityService.updateInBatch(requests);
+    }
+
+    @DeleteMapping("/activity/batch")
+    void deleteInBatch(@RequestBody EntityIdList ids) {
+        adminActivityService.deleteInBatch(ids.getIds());
     }
 
     @DeleteMapping("/activity/{id}")
