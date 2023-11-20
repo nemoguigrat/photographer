@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AdminActivityRequest {
 
-    Long id;
-
     Long locationId;
 
     Long eventId;

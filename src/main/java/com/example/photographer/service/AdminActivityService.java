@@ -5,6 +5,7 @@ import com.example.photographer.service.dto.activity.request.AdminActivityBatchU
 import com.example.photographer.service.dto.activity.request.AdminActivityFilter;
 import com.example.photographer.service.dto.activity.request.AdminActivityRequest;
 import com.example.photographer.service.dto.activity.request.AdminActivityShortFilter;
+import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,9 @@ public interface AdminActivityService {
 
     void update(Long id, AdminActivityRequest request);
 
-    void updateInBatch(List<AdminActivityBatchUpdateRequest> requests);
+    List<ActivityConflictResponse> updateInBatch(List<AdminActivityBatchUpdateRequest> requests);
 
     void delete(Long id);
+
+    void deleteInBatch(List<Long> ids);
 }
