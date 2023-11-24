@@ -1,6 +1,7 @@
 package com.example.photographer.service.impl;
 
 import com.example.photographer.config.properties.PhotographerProperties;
+import com.example.photographer.exception.NotSupportedMediaTypeException;
 import com.example.photographer.exception.UserAlreadyExists;
 import com.example.photographer.service.dto.photographer.request.PhotographerChangeCredentialRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
@@ -97,6 +98,11 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         if (!file.isEmpty()) {
             String ext = FileUtils.resolveContentType(file.getBytes(), file.getName());
+
+            if (!photographerProperties.getMediaTypes().contains(ext)) {
+                throw new NotSupportedMediaTypeException();
+            }
+
             content = file.getBytes();
             contentType = ext;
         }

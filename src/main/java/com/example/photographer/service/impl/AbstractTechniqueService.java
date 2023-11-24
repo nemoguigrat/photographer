@@ -35,7 +35,7 @@ public abstract class AbstractTechniqueService<T extends AbstractTechnique> impl
     @Override
     public AdminTechniqueList findAllTechnique(TechniqueFilter filter, Pageable pageable) {
         return AdminTechniqueList.of(
-                repository.findTechniqueWithModelAndManufacturer(pageable).map(T::buildDto)
+                repository.findTechniqueWithModelAndManufacturer(filter.getTechniqueInfoId(), pageable).map(T::buildDto)
         );
     }
 

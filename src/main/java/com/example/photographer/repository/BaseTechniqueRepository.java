@@ -12,7 +12,7 @@ import java.util.Collection;
 @NoRepositoryBean
 public interface BaseTechniqueRepository<T extends AbstractTechnique> extends JpaRepository<T, Long> {
 
-    @Query(value = "select t from #{#entityName} t ",
-            countQuery = "select count(t) from #{#entityName} t")
-    Page<T> findTechniqueWithModelAndManufacturer(Pageable pageable);
+    @Query(value = "select t from #{#entityName} t where (:techniqueInfoId is null or t.techniqueInfo.id = :techniqueInfoId)",
+            countQuery = "select count(t) from #{#entityName} t where (:techniqueInfoId is null or t.techniqueInfo.id = :techniqueInfoId)")
+    Page<T> findTechniqueWithModelAndManufacturer(Long techniqueInfoId, Pageable pageable);
 }
