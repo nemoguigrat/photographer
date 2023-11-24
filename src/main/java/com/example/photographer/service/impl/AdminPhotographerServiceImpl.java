@@ -100,6 +100,7 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
                 .description(photographer.getDescription())
                 .registrationDate(photographer.getRegistrationDate())
                 .portfolio(photographer.getPortfolio())
+                .techniqueInfoId(photographer.getTechniqueInfo().getId())
                 .build();
     }
 }

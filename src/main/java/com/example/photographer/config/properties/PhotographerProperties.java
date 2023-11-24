@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 @Data
 @Validated
@@ -13,4 +16,6 @@ import org.springframework.validation.annotation.Validated;
 public class PhotographerProperties {
 
     String defaultImage;
+
+    List<String> mediaTypes = List.of("image/jpg");
 }

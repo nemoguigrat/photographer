@@ -44,4 +44,6 @@ public class AdminPhotographerResponse {
     boolean trainee;
 
     String portfolio;
+
+    Long techniqueInfoId;
 }
