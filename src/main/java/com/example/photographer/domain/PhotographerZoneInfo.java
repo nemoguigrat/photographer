@@ -24,5 +24,6 @@ public class PhotographerZoneInfo extends BaseEntity {
     Photographer photographer;
 
     @Column
+    @Setter
     Integer priority;
 }

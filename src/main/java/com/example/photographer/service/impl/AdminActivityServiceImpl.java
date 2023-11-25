@@ -18,7 +18,6 @@ import com.example.photographer.service.dto.activity.request.AdminActivityShortF
 import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
-import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.util.ActivityUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -153,6 +152,9 @@ public class AdminActivityServiceImpl implements AdminActivityService {
     private AdminActivityShortResponse buildActivityShortResponse(Activity activity) {
         return AdminActivityShortResponse.builder()
                 .id(activity.getId())
+                .eventId(activity.getEvent().getId())
+                .locationId(activity.getLocation().getId())
+                .zoneId(activity.getZone().getId())
                 .activityCode(activity.getActivityCode())
                 .startTime(activity.getStartTime())
                 .endTime(activity.getEndTime())

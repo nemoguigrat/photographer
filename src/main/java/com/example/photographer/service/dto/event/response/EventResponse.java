@@ -1,34 +1,31 @@
-package com.example.photographer.service.dto.activity.response;
+package com.example.photographer.service.dto.event.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminActivityShortResponse {
+public class EventResponse {
 
     Long id;
 
     String name;
 
-    String description;
-
-    Integer priority;
+    Integer level;
 
     LocalDateTime startTime;
 
     LocalDateTime endTime;
 
-    String activityCode;
+    @Schema(type = "String", example = "Asia/Yerevan")
+    ZoneId timeZone;
 
-    Long locationId;
-
-    Long eventId;
-
-    Long zoneId;
+    String address;
 }
