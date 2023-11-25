@@ -15,4 +15,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, JpaSp
     @Modifying
     @Query("delete from Activity a where a.id in :ids")
     void deleteByList(List<Long> ids);
+
+    List<Activity> findByEvent_Id(Long eventId);
 }

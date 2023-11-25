@@ -21,11 +21,14 @@ public class PhotographerFreetime extends BaseEntity {
     PhotographerSchedule photographerSchedule;
 
     @Column
+    @Setter
     LocalDateTime startTime;
 
     @Column
+    @Setter
     LocalDateTime endTime;
 
     @Column
+    @Setter
     LocalDateTime lastUpdateTime;
 }

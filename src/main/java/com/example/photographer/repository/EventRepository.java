@@ -13,4 +13,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query(value = "select distinct p from Event p",
             countQuery = "select count(p.id) from Event p")
     Page<Event> findEventWithFilter(Pageable pageable);
+
+    @Query(value = "select distinct p from Event p where p.published = true",
+            countQuery = "select count(p.id) from Event p where p.published = true")
+    Page<Event> findEventForPhotographer(Pageable pageable);
 }

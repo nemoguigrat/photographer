@@ -1,8 +1,9 @@
-package com.example.photographer.service.dto.activity.response;
+package com.example.photographer.service.dto.location.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminActivityShortResponse {
+public class LocationResponse {
 
     Long id;
 
@@ -18,17 +19,13 @@ public class AdminActivityShortResponse {
 
     String description;
 
-    Integer priority;
+    LocalDate startDate;
 
     LocalDateTime startTime;
 
     LocalDateTime endTime;
 
-    String activityCode;
+    String address;
 
-    Long locationId;
-
-    Long eventId;
-
-    Long zoneId;
+    String manager;
 }

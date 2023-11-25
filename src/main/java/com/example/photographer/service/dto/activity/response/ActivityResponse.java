@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminActivityShortResponse {
+public class ActivityResponse {
 
     Long id;
 
