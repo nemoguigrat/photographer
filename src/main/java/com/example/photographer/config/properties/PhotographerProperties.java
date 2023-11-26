@@ -17,5 +17,5 @@ public class PhotographerProperties {
 
     String defaultImage;
 
-    List<String> mediaTypes = List.of("image/jpg");
+    List<String> mediaTypes = List.of("image/jpeg");
 }
