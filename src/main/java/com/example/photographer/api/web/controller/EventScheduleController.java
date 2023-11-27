@@ -34,16 +34,16 @@ public class EventScheduleController {
 
     @GetMapping("/event/{eventId}/zone")
     public List<ZoneResponse> zones(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
-        return null;
+        return scheduleService.zones(userDetails, eventId);
     }
 
     @GetMapping("/event/{eventId}/locations")
     public List<LocationResponse> locations(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
-        return null;
+        return scheduleService.locations(userDetails, eventId);
     }
 
     @GetMapping("/event/{eventId}/activities")
     public List<ActivityResponse> activities(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
-        return null;
+        return scheduleService.activities(userDetails, eventId);
     }
 }
