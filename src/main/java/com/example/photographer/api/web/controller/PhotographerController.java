@@ -51,14 +51,14 @@ public class PhotographerController {
     }
 
     @Operation(summary = "Установить аватар")
-    @PostMapping(value = "/photographer/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/photographer/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void upload(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails,
                        @RequestPart(name = "file") MultipartFile file) {
         photographerService.upload(userDetails, file);
     }
 
     @Operation(summary = "Загрузить аватар")
-    @GetMapping(value = "/photographer/download")
+    @GetMapping(value = "/photographer/image")
     public ResponseEntity<Resource> download(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails) {
         PhotographerAvatarResponse response = photographerService.download(userDetails);
 

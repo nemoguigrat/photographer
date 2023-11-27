@@ -3,6 +3,7 @@ package com.example.photographer.domain;
 import com.example.photographer.support.domain.BaseEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PhotographerSchedule extends BaseEntity {
 

@@ -56,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void upsertZonePriority(UmnUserDetails userDetails, Long eventId, PriorityRequest request) {
         if (request.getId() != null) {
             PhotographerZoneInfo photographerZoneInfo =  zonePriorityRepository.findById(request.getId())
@@ -77,7 +77,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void upsertFreeTime(UmnUserDetails userDetails, Long eventId, FreetimeRequest request) {
         if (request.getId() != null) {
             PhotographerFreetime photographerFreetime = freetimeRepository.findById(request.getId())
@@ -108,13 +108,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteZonePriority(UmnUserDetails userDetails, Long eventId, Long zonePriorityId) {
         zonePriorityRepository.deleteById(zonePriorityId);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void deleteFreeTime(UmnUserDetails userDetails, Long eventId, Long freetimeId) {
         freetimeRepository.deleteById(freetimeId);
     }
