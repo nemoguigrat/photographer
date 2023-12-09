@@ -20,9 +20,7 @@ public class AdminActivityShortFilter {
 
     Long zoneId;
 
-    @NotNull
     LocalDate from;
 
-    @NotNull
     LocalDate to;
 }

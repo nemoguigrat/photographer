@@ -1,11 +1,14 @@
 server:
   ssl:
-    enabled: true
-    key-store-type: PKCS12
-    key-store-password: password
-    key-store: file:./keystore/keystore.p12
-    key-alias: tomcat
+    enabled: false
 
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+
+
+
+photographers:
+  employee:
+    default-email: aaa@aaa.com
+    default-password: 1234
