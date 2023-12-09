@@ -23,11 +23,17 @@ public class ActivitySpec {
             nullSafePredicateById(root, criteriaBuilder, filter.getEventId(), Activity.Fields.event, predicates);
             nullSafePredicateById(root, criteriaBuilder, filter.getZoneId(), Activity.Fields.zone, predicates);
 
-            Predicate from = criteriaBuilder.greaterThanOrEqualTo(root.get(Activity.Fields.startTime), filter.getFrom().atStartOfDay());
-            Predicate to = criteriaBuilder.lessThanOrEqualTo(root.get(Activity.Fields.endTime), filter.getTo().atStartOfDay());
-            predicates.add(from);
-            predicates.add(to);
-            return criteriaBuilder.and(from, to);
+            if (filter.getFrom() != null) {
+                Predicate from = criteriaBuilder.greaterThanOrEqualTo(root.get(Activity.Fields.startTime), filter.getFrom().atStartOfDay());
+                predicates.add(from);
+            }
+
+            if (filter.getTo() != null) {
+                Predicate to = criteriaBuilder.lessThanOrEqualTo(root.get(Activity.Fields.endTime), filter.getTo().atStartOfDay());
+                predicates.add(to);
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 

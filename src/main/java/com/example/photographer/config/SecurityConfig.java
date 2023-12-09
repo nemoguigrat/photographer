@@ -1,7 +1,9 @@
 package com.example.photographer.config;
 
+import com.example.photographer.config.properties.EmployeeProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableConfigurationProperties(EmployeeProperties.class)
 public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URLS = {
