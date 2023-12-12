@@ -22,8 +22,8 @@ public class PhotographerZoneInfo extends BaseEntity {
     Zone zone;
 
     @ManyToOne
-    @JoinColumn(name = "photographer_id")
-    Photographer photographer;
+    @JoinColumn(name = "photographer_schedule_id")
+    PhotographerSchedule photographerSchedule;
 
     @Column
     @Setter

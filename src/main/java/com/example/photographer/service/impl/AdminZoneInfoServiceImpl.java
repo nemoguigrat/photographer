@@ -1,21 +1,19 @@
 package com.example.photographer.service.impl;
 
-import com.example.photographer.domain.Photographer;
-import com.example.photographer.domain.PhotographerFreetime;
+import com.example.photographer.domain.PhotographerSchedule;
 import com.example.photographer.domain.PhotographerZoneInfo;
 import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.PhotographerRepository;
+import com.example.photographer.repository.PhotographerScheduleRepository;
 import com.example.photographer.repository.PhotographerZonePriorityRepository;
 import com.example.photographer.repository.ZoneRepository;
-import com.example.photographer.repository.specification.FreetimeSpec;
 import com.example.photographer.repository.specification.ZoneInfoSpec;
 import com.example.photographer.service.AdminZoneInfoService;
 import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.schedule.request.AdminZoneInfoFilter;
 import com.example.photographer.service.dto.schedule.request.AdminZoneInfoRequest;
 import com.example.photographer.service.dto.schedule.response.AdminZoneInfoResponse;
-import com.example.photographer.service.dto.schedule.response.PriorityResponse;
 import com.example.photographer.util.NullSafeUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
     PhotographerZonePriorityRepository zoneInfoRepository;
     PhotographerRepository photographerRepository;
     ZoneRepository zoneRepository;
+    PhotographerScheduleRepository photographerScheduleRepository;
 
     @Override
     public AdminListResponse<AdminZoneInfoResponse> findAll(AdminZoneInfoFilter filter, Pageable pageable) {
@@ -47,12 +48,18 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
 
     @Override
     public void create(AdminZoneInfoRequest request) {
-        Photographer photographerRef = photographerRepository.getReferenceById(request.getPhotographerId());
-        Zone zoneRef = zoneRepository.getReferenceById(request.getZoneId());
+        Zone zone = zoneRepository.findById(request.getZoneId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
+        PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(request.getPhotographerId(), zone.getEvent().getId())
+                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
+                        .photographer(photographerRepository.getReferenceById(request.getPhotographerId()))
+                        .event(zone.getEvent())
+                        .published(true)
+                        .lastUpdateTime(LocalDateTime.now())
+                        .build()));
 
         zoneInfoRepository.save(PhotographerZoneInfo.builder()
-                .photographer(photographerRef)
-                .zone(zoneRef)
+                .photographerSchedule(photographerSchedule)
+                .zone(zone)
                 .priority(request.getPriority())
                 .build());
     }
@@ -72,7 +79,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
     AdminZoneInfoResponse buildResponse(PhotographerZoneInfo zoneInfo) {
         return AdminZoneInfoResponse.builder()
                 .id(zoneInfo.getId())
-                .photographerId(NullSafeUtils.safeGetId(zoneInfo.getPhotographer()))
+                .photographerScheduleId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule()))
                 .zoneId(NullSafeUtils.safeGetId(zoneInfo.getZone()))
                 .priority(zoneInfo.getPriority())
                 .build();

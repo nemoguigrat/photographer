@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface PhotographerZonePriorityRepository extends JpaRepository<PhotographerZoneInfo, Long>, JpaSpecificationExecutor<PhotographerZoneInfo> {
 
-    @Query("select distinct pzi from PhotographerZoneInfo pzi where pzi.photographer.id = :pId and pzi.zone.event.id = :eventId")
+    @Query("select distinct pzi from PhotographerZoneInfo pzi where pzi.photographerSchedule.photographer.id = :pId and pzi.zone.event.id = :eventId")
     List<PhotographerZoneInfo> findByPhotographerIdAndEventId(Long pId, Long eventId);
 }
