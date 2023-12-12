@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2023-12-12-22-00" author="ivanovna">
+
+        <addColumn tableName="photographer_zone_info">
+            <column name="photographer_schedule_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
+        <sql>update photographer_zone_info zi set photographer_schedule_id = s.id from photographer_schedule s where s.photographer_id = zi.photographer_id</sql>
+
+        <dropColumn tableName="photographer_zone_info" columnName="photographer_id" />
+    </changeSet>
+</databaseChangeLog>

@@ -52,12 +52,13 @@ public class AdminFreetimeServiceImpl implements AdminFreetimeService {
     @Override
     @Transactional
     public void createFreetime(AdminFreetimeRequest request) {
-        PhotographerSchedule photographerSchedule = PhotographerSchedule.builder()
-                .photographer(photographerRepository.getReferenceById(request.getPhotographerId()))
-                .event(eventRepository.getReferenceById(request.getEventId()))
-                .published(true)
-                .lastUpdateTime(LocalDateTime.now())
-                .build();
+        PhotographerSchedule photographerSchedule = scheduleRepository.findByPhotographerId(request.getPhotographerId(), request.getEventId())
+                .orElseGet(() -> scheduleRepository.save(PhotographerSchedule.builder()
+                        .photographer(photographerRepository.getReferenceById(request.getPhotographerId()))
+                        .event(eventRepository.getReferenceById(request.getEventId()))
+                        .published(true)
+                        .lastUpdateTime(LocalDateTime.now())
+                        .build()));
 
         PhotographerFreetime photographerFreetime = PhotographerFreetime.builder()
                 .photographerSchedule(photographerSchedule)
@@ -66,7 +67,6 @@ public class AdminFreetimeServiceImpl implements AdminFreetimeService {
                 .lastUpdateTime(LocalDateTime.now())
                 .build();
 
-        scheduleRepository.save(photographerSchedule);
         freetimeRepository.save(photographerFreetime);
     }
 

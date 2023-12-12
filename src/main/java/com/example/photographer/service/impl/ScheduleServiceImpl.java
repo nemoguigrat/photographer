@@ -65,11 +65,17 @@ public class ScheduleServiceImpl implements ScheduleService {
             return;
         }
 
-        Photographer photographerRef = photographerRepository.getReferenceById(userDetails.getId());
         Zone zoneRef = zoneRepository.getReferenceById(request.getZoneId());
+        PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(userDetails.getId(), eventId)
+                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
+                        .photographer(photographerRepository.getReferenceById(userDetails.getId()))
+                        .event(eventRepository.getReferenceById(eventId))
+                        .published(true)
+                        .lastUpdateTime(LocalDateTime.now())
+                        .build()));
 
         zonePriorityRepository.save(PhotographerZoneInfo.builder()
-                .photographer(photographerRef)
+                .photographerSchedule(photographerSchedule)
                 .zone(zoneRef)
                 .priority(request.getPriority())
                 .build());
@@ -89,12 +95,13 @@ public class ScheduleServiceImpl implements ScheduleService {
             return;
         }
 
-        PhotographerSchedule photographerSchedule = PhotographerSchedule.builder()
-                .photographer(photographerRepository.getReferenceById(userDetails.getId()))
-                .event(eventRepository.getReferenceById(eventId))
-                .published(true)
-                .lastUpdateTime(LocalDateTime.now())
-                .build();
+        PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(userDetails.getId(), eventId)
+                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
+                        .photographer(photographerRepository.getReferenceById(userDetails.getId()))
+                        .event(eventRepository.getReferenceById(eventId))
+                        .published(true)
+                        .lastUpdateTime(LocalDateTime.now())
+                        .build()));
 
         PhotographerFreetime photographerFreetime = PhotographerFreetime.builder()
                 .photographerSchedule(photographerSchedule)
@@ -103,7 +110,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .lastUpdateTime(LocalDateTime.now())
                 .build();
 
-        photographerScheduleRepository.save(photographerSchedule);
         freetimeRepository.save(photographerFreetime);
     }
 

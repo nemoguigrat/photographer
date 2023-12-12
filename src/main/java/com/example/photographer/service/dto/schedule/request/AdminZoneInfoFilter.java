@@ -14,5 +14,7 @@ public class AdminZoneInfoFilter {
 
     Long photographerId;
 
+    Long photographerScheduleId;
+
     Long eventId;
 }
