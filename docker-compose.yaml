@@ -36,7 +36,7 @@ volumes:
   service-logs:
     driver_opts:
       type: none
-      device: ~/logs
+      device: /home/user/logs
       o: bind
   ssl-keys:
     driver_opts:
