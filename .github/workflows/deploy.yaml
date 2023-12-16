@@ -27,9 +27,9 @@ jobs:
     needs: test
     environment: deploy-env
     env:
-      POSTGRES_DB: ${{ vars.POSTGRES_DB }}
-      POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
-      POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       KEY_STORE_PATH: ${{ secrets.KEY_STORE_PATH }}
     steps:
@@ -46,9 +46,9 @@ jobs:
     needs: prepare-environment
     environment: deploy-env
     env:
-      POSTGRES_DB: ${{ vars.POSTGRES_DB }}
-      POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
-      POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
       KEY_STORE_PATH: ${{ secrets.KEY_STORE_PATH }}
     steps:
