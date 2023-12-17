@@ -1,6 +1,7 @@
 package com.example.photographer.config;
 
 import com.example.photographer.config.properties.EmployeeProperties;
+import com.example.photographer.service.impl.auth.ApiLogoutHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -44,6 +45,7 @@ public class SecurityConfig {
 
     private final UserDetailsService apiUserDetailsService;
     private final UserDetailsService adminUserDetailsService;
+    private final ApiLogoutHandler apiLogoutHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -94,6 +96,7 @@ public class SecurityConfig {
                         .logoutUrl("/api/auth/logout")
                         .deleteCookies()
                         .invalidateHttpSession(true)
+                        .addLogoutHandler(apiLogoutHandler)
                         .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
                 );
         log.info("web is configured");

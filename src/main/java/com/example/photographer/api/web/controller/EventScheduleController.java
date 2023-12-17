@@ -8,13 +8,13 @@ import com.example.photographer.service.dto.location.response.LocationResponse;
 import com.example.photographer.service.dto.zone.response.ZoneResponse;
 import com.example.photographer.support.UmnUserDetails;
 import com.example.photographer.support.api.WebApi;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,22 +28,32 @@ public class EventScheduleController {
     EventScheduleService scheduleService;
 
     @GetMapping("/event/list")
-    public ListResponse<EventResponse> findEvents(@AuthenticationPrincipal UmnUserDetails userDetails, @ParameterObject Pageable pageable) {
+    public ListResponse<EventResponse> findEvents(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @ParameterObject Pageable pageable) {
         return scheduleService.events(userDetails, pageable);
     }
 
     @GetMapping("/event/{eventId}/zone")
-    public List<ZoneResponse> zones(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
+    public List<ZoneResponse> zones(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
         return scheduleService.zones(userDetails, eventId);
     }
 
     @GetMapping("/event/{eventId}/locations")
-    public List<LocationResponse> locations(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
+    public List<LocationResponse> locations(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
         return scheduleService.locations(userDetails, eventId);
     }
 
     @GetMapping("/event/{eventId}/activities")
-    public List<ActivityResponse> activities(@AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
+    public List<ActivityResponse> activities(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
         return scheduleService.activities(userDetails, eventId);
+    }
+
+    @PostMapping("/event/{eventId}/register")
+    public void register(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId) {
+        scheduleService.register(userDetails, eventId);
+    }
+
+    @PutMapping("/event/{eventId}/publish")
+    public void publish(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @PathVariable Long eventId, @RequestParam Boolean publish) {
+        scheduleService.changePublish(userDetails, eventId, publish);
     }
 }

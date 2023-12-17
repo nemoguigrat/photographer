@@ -1,12 +1,12 @@
 package com.example.photographer.domain;
 
+import com.example.photographer.event.scheduler.PhotographerScheduler;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
 import com.example.photographer.support.ContactType;
 import com.example.photographer.support.UserStatus;
 import com.example.photographer.support.domain.BaseEntity;
 import com.example.photographer.support.domain.DataType;
-import io.swagger.v3.oas.models.info.Contact;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -14,8 +14,9 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -94,6 +95,13 @@ public class Photographer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Setter
     UserStatus status;
+
+    //TODO изменить формат хранения токенов
+    @Column
+    String expoPushToken;
+
+    @OneToMany(mappedBy = "photographer")
+    Set<PhotographerSchedule> schedules = new HashSet<>();
 
     public void updateFrom(PhotographerUpdateRequest request) {
         this.firstname = request.getFirstname();

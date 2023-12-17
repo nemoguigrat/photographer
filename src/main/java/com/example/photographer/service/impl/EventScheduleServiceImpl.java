@@ -1,13 +1,8 @@
 package com.example.photographer.service.impl;
 
-import com.example.photographer.domain.Activity;
-import com.example.photographer.domain.Event;
-import com.example.photographer.domain.Location;
-import com.example.photographer.domain.Zone;
-import com.example.photographer.repository.ActivityRepository;
-import com.example.photographer.repository.EventRepository;
-import com.example.photographer.repository.LocationRepository;
-import com.example.photographer.repository.ZoneRepository;
+import com.example.photographer.domain.*;
+import com.example.photographer.exception.ScheduleAlreadyExists;
+import com.example.photographer.repository.*;
 import com.example.photographer.service.EventScheduleService;
 import com.example.photographer.service.dto.ListResponse;
 import com.example.photographer.service.dto.activity.response.ActivityResponse;
@@ -23,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +33,8 @@ public class EventScheduleServiceImpl implements EventScheduleService {
     ZoneRepository zoneRepository;
     ActivityRepository activityRepository;
     LocationRepository locationRepository;
+    PhotographerRepository photographerRepository;
+    PhotographerScheduleRepository scheduleRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -67,6 +65,27 @@ public class EventScheduleServiceImpl implements EventScheduleService {
         List<Activity> activities = activityRepository.findByEvent_Id(eventId);
 
         return activities.stream().map(this::buildResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void register(UmnUserDetails userDetails, Long eventId) {
+        if (scheduleRepository.existsByPhotographerAndEvent(userDetails.getId(), eventId)) {
+            throw new ScheduleAlreadyExists();
+        }
+
+        scheduleRepository.save(PhotographerSchedule.builder()
+                .photographer(photographerRepository.getReferenceById(userDetails.getId()))
+                .event(eventRepository.getReferenceById(eventId))
+                .published(false)
+                .lastUpdateTime(LocalDateTime.now())
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void changePublish(UmnUserDetails userDetails, Long eventId, boolean publish) {
+        scheduleRepository.findByPhotographerId(userDetails.getId(), eventId).ifPresent(s -> s.setPublished(publish));
     }
 
     public EventResponse buildResponse(Event event) {

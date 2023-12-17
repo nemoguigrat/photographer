@@ -23,10 +23,11 @@ public class PhotographerSchedule extends BaseEntity {
     Event event;
 
     @ManyToOne
-    @JoinColumn(name = "photographer_id")
+    @JoinColumn(name = "photographer_id", referencedColumnName = "id")
     Photographer photographer;
 
     @Column
+    @Setter
     Boolean published;
 
     @Column

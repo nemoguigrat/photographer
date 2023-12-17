@@ -6,8 +6,6 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
 
-
-
 photographers:
   employee:
     default-email: aaa@aaa.com

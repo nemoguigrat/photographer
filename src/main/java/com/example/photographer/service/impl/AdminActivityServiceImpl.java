@@ -1,6 +1,8 @@
 package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Activity;
+import com.example.photographer.domain.Event;
+import com.example.photographer.event.ScheduleChangedEvent;
 import com.example.photographer.exception.ActivityConflictException;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.ActivityRepository;
@@ -22,6 +24,7 @@ import com.example.photographer.util.ActivityUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +44,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
     ZoneRepository zoneRepository;
     LocationRepository locationRepository;
     EventRepository eventRepository;
+    ApplicationEventPublisher publisher;
 
     @Override
     @Transactional(readOnly = true)
@@ -72,7 +76,9 @@ public class AdminActivityServiceImpl implements AdminActivityService {
 
         Activity activity = new Activity(request);
         updateActivityRelationByRef(activity, request);
-        activityRepository.saveAndFlush(activity);
+        Activity saved = activityRepository.saveAndFlush(activity);
+
+        publisher.publishEvent(ScheduleChangedEvent.builder().eventId(saved.getEvent().getId()).build());
     }
 
     @Override
@@ -85,6 +91,8 @@ public class AdminActivityServiceImpl implements AdminActivityService {
         Activity activity = activityRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         activity.applyFromRequest(request);
         updateActivityRelationByRef(activity, request);
+
+        publisher.publishEvent(ScheduleChangedEvent.builder().eventId(activity.getEvent().getId()).build());
     }
 
     @Override
@@ -106,6 +114,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
         }
 
         List<Activity> activities = activityRepository.findAllById(requests.stream().map(r -> r.getId()).collect(Collectors.toList()));
+        Set<Long> events = new HashSet<>();
 
         for (Activity activity : activities) {
             Optional<AdminActivityBatchUpdateRequest> request = requests.stream()
@@ -114,8 +123,13 @@ public class AdminActivityServiceImpl implements AdminActivityService {
             if (request.isPresent()) {
                 activity.setStartTime(request.get().getStartTime());
                 activity.setEndTime(request.get().getEndTime());
+                events.add(request.get().getEventId());
             }
         }
+
+        events.forEach(
+                e -> publisher.publishEvent(ScheduleChangedEvent.builder().eventId(e).build())
+        );
 
         return Collections.emptyList();
     }

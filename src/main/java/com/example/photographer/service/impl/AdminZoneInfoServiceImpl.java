@@ -50,12 +50,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
     public void create(AdminZoneInfoRequest request) {
         Zone zone = zoneRepository.findById(request.getZoneId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
         PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(request.getPhotographerId(), zone.getEvent().getId())
-                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
-                        .photographer(photographerRepository.getReferenceById(request.getPhotographerId()))
-                        .event(zone.getEvent())
-                        .published(true)
-                        .lastUpdateTime(LocalDateTime.now())
-                        .build()));
+                .orElseThrow(() -> new NotFoundException(request.getPhotographerId()));
 
         zoneInfoRepository.save(PhotographerZoneInfo.builder()
                 .photographerSchedule(photographerSchedule)

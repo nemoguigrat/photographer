@@ -67,12 +67,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Zone zoneRef = zoneRepository.getReferenceById(request.getZoneId());
         PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(userDetails.getId(), eventId)
-                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
-                        .photographer(photographerRepository.getReferenceById(userDetails.getId()))
-                        .event(eventRepository.getReferenceById(eventId))
-                        .published(true)
-                        .lastUpdateTime(LocalDateTime.now())
-                        .build()));
+                .orElseThrow(() -> new NotFoundException(userDetails.getId()));
 
         zonePriorityRepository.save(PhotographerZoneInfo.builder()
                 .photographerSchedule(photographerSchedule)
@@ -96,12 +91,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(userDetails.getId(), eventId)
-                .orElseGet(() -> photographerScheduleRepository.save(PhotographerSchedule.builder()
-                        .photographer(photographerRepository.getReferenceById(userDetails.getId()))
-                        .event(eventRepository.getReferenceById(eventId))
-                        .published(true)
-                        .lastUpdateTime(LocalDateTime.now())
-                        .build()));
+                .orElseThrow(() -> new NotFoundException(userDetails.getId()));
 
         PhotographerFreetime photographerFreetime = PhotographerFreetime.builder()
                 .photographerSchedule(photographerSchedule)

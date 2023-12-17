@@ -21,4 +21,8 @@ public interface EventScheduleService {
     List<LocationResponse> locations(UmnUserDetails userDetails, Long eventId);
 
     List<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId);
+
+    void register(UmnUserDetails userDetails, Long eventId);
+
+    void changePublish(UmnUserDetails userDetails, Long eventId, boolean publish);
 }
