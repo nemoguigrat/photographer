@@ -53,12 +53,7 @@ public class AdminFreetimeServiceImpl implements AdminFreetimeService {
     @Transactional
     public void createFreetime(AdminFreetimeRequest request) {
         PhotographerSchedule photographerSchedule = scheduleRepository.findByPhotographerId(request.getPhotographerId(), request.getEventId())
-                .orElseGet(() -> scheduleRepository.save(PhotographerSchedule.builder()
-                        .photographer(photographerRepository.getReferenceById(request.getPhotographerId()))
-                        .event(eventRepository.getReferenceById(request.getEventId()))
-                        .published(true)
-                        .lastUpdateTime(LocalDateTime.now())
-                        .build()));
+                .orElseThrow(() -> new NotFoundException(request.getPhotographerId()));
 
         PhotographerFreetime photographerFreetime = PhotographerFreetime.builder()
                 .photographerSchedule(photographerSchedule)

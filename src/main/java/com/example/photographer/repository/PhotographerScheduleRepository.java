@@ -12,4 +12,7 @@ public interface PhotographerScheduleRepository extends JpaRepository<Photograph
 
     @Query("select distinct p from PhotographerSchedule p where p.photographer.id = :id and p.event.id = :eventId")
     Optional<PhotographerSchedule> findByPhotographerId(Long id, Long eventId);
+
+    @Query("select count(p) > 0 from PhotographerSchedule p where p.photographer.id = :id and p.event.id = :eventId")
+    boolean existsByPhotographerAndEvent(Long id, Long eventId);
 }

@@ -1,12 +1,10 @@
 package com.example.photographer.service.impl.auth;
 
-import com.example.photographer.service.dto.auth.AuthRequest;
-import com.example.photographer.service.dto.auth.RegisterRequest;
-import com.example.photographer.service.dto.auth.LoginResponse;
-import com.example.photographer.service.dto.auth.RegistrationResponse;
+import com.example.photographer.service.dto.auth.*;
 import com.example.photographer.domain.Employee;
 import com.example.photographer.repository.EmployeeRepository;
 import com.example.photographer.service.AuthService;
+import com.example.photographer.support.UmnUserDetails;
 import com.example.photographer.support.UserStatus;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +57,10 @@ public class AdminAuthService implements AuthService {
     @Override
     public RegistrationResponse register(RegisterRequest registerRequest) {
        throw new NotImplementedException();
+    }
+
+    @Override
+    public void updateToken(UmnUserDetails userDetails, TokenRequest request) {
+        throw new NotImplementedException();
     }
 }

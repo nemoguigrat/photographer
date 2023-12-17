@@ -30,7 +30,9 @@ dependencies {
                 'org.springdoc:springdoc-openapi-ui:1.7.0',
                 'com.vladmihalcea:hibernate-types-52:2.19.2',
                 'org.apache.tika:tika-core:2.4.1',
-                'com.google.firebase:firebase-admin:9.2.0'
+                'io.github.jav:expo-server-sdk:1.1.0',
+                'net.javacrumbs.shedlock:shedlock-spring:4.44.0',
+                'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.44.0'
 
     compileOnly 'org.projectlombok:lombok'
 
