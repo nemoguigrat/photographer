@@ -28,4 +28,6 @@ public class AdminLocationResponse {
     String address;
 
     String manager;
+
+    //zone_id
 }
