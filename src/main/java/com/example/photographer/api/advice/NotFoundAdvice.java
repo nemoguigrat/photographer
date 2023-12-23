@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
@@ -20,12 +22,18 @@ import static org.springframework.http.ResponseEntity.status;
 public class NotFoundAdvice {
 
     @ExceptionHandler({
-            NotFoundException.class,
             EntityNotFoundException.class})
-    public ResponseEntity<ApiError> notFound() {
+    public ResponseEntity<ApiError> notFoundEntity() {
 
         return status(UNPROCESSABLE_ENTITY)
                 .body(ApiError.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<ApiError> notFound(NotFoundException e) {
+        String message = Optional.ofNullable(e.getMessage()).orElse(NOT_FOUND.getReasonPhrase());
+        return status(UNPROCESSABLE_ENTITY)
+                .body(ApiError.of("NOT_FOUND", message));
     }
 
     @ExceptionHandler({
