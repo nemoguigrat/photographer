@@ -2,6 +2,8 @@ package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Activity;
 import com.example.photographer.domain.Event;
+import com.example.photographer.domain.Location;
+import com.example.photographer.domain.Zone;
 import com.example.photographer.event.ScheduleChangedEvent;
 import com.example.photographer.exception.ActivityConflictException;
 import com.example.photographer.exception.NotFoundException;
@@ -189,15 +191,18 @@ public class AdminActivityServiceImpl implements AdminActivityService {
 
     private void updateActivityRelationByRef(Activity activity, AdminActivityRequest request) {
         if (request.getZoneId() != null) {
-            activity.setZone(zoneRepository.getReferenceById(request.getZoneId()));
+            Zone zone = zoneRepository.findById(request.getEventId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
+            activity.setZone(zone);
         }
 
         if (request.getLocationId() != null) {
-            activity.setLocation(locationRepository.getReferenceById(request.getLocationId()));
+            Location location = locationRepository.findById(request.getLocationId()).orElseThrow(() -> new NotFoundException(request.getLocationId()));
+            activity.setLocation(location);
         }
 
         if (request.getEventId() != null) {
-            activity.setEvent(eventRepository.getReferenceById(request.getEventId()));
+            Event event = eventRepository.findById(request.getEventId()).orElseThrow(() -> new NotFoundException(request.getEventId()));
+            activity.setEvent(event);
         }
     }
 
