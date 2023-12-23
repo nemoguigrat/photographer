@@ -1,13 +1,17 @@
 package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Location;
+import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.LocationRepository;
+import com.example.photographer.repository.ZoneRepository;
+import com.example.photographer.repository.specification.LocationSpec;
 import com.example.photographer.service.AdminLocationService;
 import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.location.response.AdminLocationResponse;
 import com.example.photographer.service.dto.location.request.AdminLocationFilter;
 import com.example.photographer.service.dto.location.request.AdminLocationRequest;
+import com.example.photographer.util.NullSafeUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,11 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminLocationServiceImpl implements AdminLocationService {
 
     LocationRepository locationRepository;
+    ZoneRepository zoneRepository;
 
     @Override
     @Transactional(readOnly = true)
     public AdminListResponse<AdminLocationResponse> findAll(AdminLocationFilter filter, Pageable pageable) {
-        Page<Location> locations = locationRepository.findLocationWithFilter(pageable);
+        Page<Location> locations = locationRepository.findAll(LocationSpec.filter(filter), pageable);
         return AdminListResponse.of(locations.map(this::buildResponse));
     }
 
@@ -40,7 +45,9 @@ public class AdminLocationServiceImpl implements AdminLocationService {
     @Override
     @Transactional
     public void create(AdminLocationRequest request) {
-        locationRepository.save(new Location(request));
+        Location location = new Location(request);
+        updateRelation(location, request);
+        locationRepository.save(location);
     }
 
     @Override
@@ -48,6 +55,13 @@ public class AdminLocationServiceImpl implements AdminLocationService {
     public void update(Long id, AdminLocationRequest request) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         location.applyFromRequest(request);
+        updateRelation(location, request);
+    }
+
+    private void updateRelation(Location location, AdminLocationRequest request) {
+        Zone zone = zoneRepository.findAndFetchEvent(request.getZoneId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
+        location.setZone(zone);
+        location.setEvent(zone.getEvent());
     }
 
     @Override
@@ -66,6 +80,8 @@ public class AdminLocationServiceImpl implements AdminLocationService {
                 .description(location.getDescription())
                 .address(location.getAddress())
                 .manager(location.getManager())
+                .eventId(NullSafeUtils.safeGetId(location.getEvent()))
+                .zoneId(NullSafeUtils.safeGetId(location.getZone()))
                 .build();
     }
 }

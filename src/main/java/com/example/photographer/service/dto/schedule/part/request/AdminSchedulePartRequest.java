@@ -1,9 +1,8 @@
-package com.example.photographer.service.dto.location.request;
+package com.example.photographer.service.dto.schedule.part.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,21 +10,15 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminLocationRequest {
+public class AdminSchedulePartRequest {
 
-    String name;
+    Long eventId;
 
-    String description;
+    Long photographerId;
 
-    LocalDate startDate;
+    Long activityId;
 
     LocalDateTime startTime;
 
     LocalDateTime endTime;
-
-    String address;
-
-    String manager;
-
-    Long zoneId;
 }

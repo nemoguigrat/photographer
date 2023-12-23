@@ -19,8 +19,4 @@ public class AdminActivityShortFilter {
     Long eventId;
 
     Long zoneId;
-
-    LocalDate from;
-
-    LocalDate to;
 }

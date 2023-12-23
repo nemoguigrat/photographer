@@ -4,11 +4,13 @@ import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.DeletionException;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.ZoneRepository;
+import com.example.photographer.repository.specification.ZoneSpec;
 import com.example.photographer.service.AdminZoneService;
 import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.zone.request.AdminZoneFilter;
 import com.example.photographer.service.dto.zone.request.AdminZoneRequest;
 import com.example.photographer.service.dto.zone.response.AdminZoneResponse;
+import com.example.photographer.util.NullSafeUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +29,7 @@ public class AdminZoneServiceImpl implements AdminZoneService {
     @Override
     @Transactional(readOnly = true)
     public AdminListResponse<AdminZoneResponse> findAll(AdminZoneFilter filter, Pageable pageable) {
-        Page<Zone> events = zoneRepository.findZoneWithFilter(pageable);
+        Page<Zone> events = zoneRepository.findAll(ZoneSpec.filter(filter), pageable);
         return AdminListResponse.of(events.map(this::buildResponse));
     }
 
@@ -67,6 +69,7 @@ public class AdminZoneServiceImpl implements AdminZoneService {
                 .number(zone.getNumber())
                 .description(zone.getDescription())
                 .manager(zone.getManager())
+                .eventId(NullSafeUtils.safeGetId(zone.getEvent()))
                 .build();
     }
 }

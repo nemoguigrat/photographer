@@ -1,4 +1,4 @@
-package com.example.photographer.service.dto.zone.request;
+package com.example.photographer.service.dto.schedule.part.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,9 +6,11 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@NoArgsConstructor
 @AllArgsConstructor
-public class AdminZoneFilter {
+@NoArgsConstructor
+public class AdminSchedulePartFilter {
 
     Long eventId;
+
+    Long photographerId;
 }

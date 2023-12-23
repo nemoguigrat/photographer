@@ -17,4 +17,6 @@ public class AdminZoneResponse {
     String description;
 
     String manager;
+
+    Long eventId;
 }

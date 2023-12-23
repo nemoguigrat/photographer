@@ -2,11 +2,9 @@ package com.example.photographer.domain;
 
 import com.example.photographer.service.dto.location.request.AdminLocationRequest;
 import com.example.photographer.support.domain.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,6 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @FieldDefaults(level = PRIVATE)
 public class Location extends BaseEntity {
 
@@ -45,10 +44,12 @@ public class Location extends BaseEntity {
     String manager;
 
     @ManyToOne
+    @Setter
     @JoinColumn(name = "zone_id")
     Zone zone;
 
     @ManyToOne
+    @Setter
     @JoinColumn(name = "event_id")
     Event event;
 
