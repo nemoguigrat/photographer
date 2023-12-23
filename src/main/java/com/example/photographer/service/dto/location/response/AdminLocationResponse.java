@@ -29,5 +29,7 @@ public class AdminLocationResponse {
 
     String manager;
 
-    //zone_id
+    Long zoneId;
+
+    Long eventId;
 }
