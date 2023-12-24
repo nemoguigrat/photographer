@@ -71,7 +71,7 @@ public class SecurityConfig {
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setCookieMaxAge(28800);
+        serializer.setCookieMaxAge(7200);
         serializer.setUseHttpOnlyCookie(false);
         serializer.setSameSite("None");
         serializer.setUseSecureCookie(true);

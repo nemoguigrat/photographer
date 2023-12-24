@@ -15,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -62,5 +64,11 @@ public class AdminAuthService implements AuthService {
     @Override
     public void updateToken(UmnUserDetails userDetails, TokenRequest request) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NEVER)
+    public PingResponse ping(Long userId) {
+        return PingResponse.builder().alive(true).build();
     }
 }

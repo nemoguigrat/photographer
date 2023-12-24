@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public enum ShootingType {
     @JsonProperty("start")
     START,
-    @JsonProperty("start")
+    @JsonProperty("end")
     END,
-    @JsonProperty("start")
+    @JsonProperty("all")
     ALL,
-    @JsonProperty("start")
+    @JsonProperty("start_end")
     START_END,
-    @JsonProperty("start")
+    @JsonProperty("any")
     ANY
 }

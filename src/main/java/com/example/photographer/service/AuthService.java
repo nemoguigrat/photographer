@@ -10,4 +10,6 @@ public interface AuthService {
     RegistrationResponse register(RegisterRequest registerRequest);
 
     void updateToken(UmnUserDetails userDetails, TokenRequest request);
+
+    PingResponse ping(Long userId);
 }

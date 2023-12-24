@@ -1,6 +1,7 @@
 package com.example.photographer.repository;
 
 import com.example.photographer.domain.Photographer;
+import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.support.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public interface PhotographerRepository extends JpaRepository<Photographer, Long> {
 
     default Photographer findPhotographerById(Long id) {
-        return findById(id).orElseThrow(() -> new UsernameNotFoundException("msg"));
+        return findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     default Photographer findPhotographerByEmail(String email) {
