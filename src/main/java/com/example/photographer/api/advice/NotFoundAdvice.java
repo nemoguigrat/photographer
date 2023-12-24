@@ -6,6 +6,7 @@ import com.example.photographer.support.exception.ErrorList;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,11 +39,12 @@ public class NotFoundAdvice {
 
     @ExceptionHandler({
             UsernameNotFoundException.class,
+            BadCredentialsException.class
     })
     public ResponseEntity<ApiError> userNotFound() {
 
-        return status(NOT_FOUND)
-                .body(ApiError.of("NOT_FOUND", NOT_FOUND.getReasonPhrase()));
+        return status(UNAUTHORIZED)
+                .body(ApiError.of("BAD_CREDENTIALS", "Bad credentials"));
     }
 }
 

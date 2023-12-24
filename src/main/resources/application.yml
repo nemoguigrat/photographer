@@ -5,6 +5,9 @@ server:
     key-store-password: ${KEY_STORE_PASSWORD}
     key-store: ${KEY_STORE_PATH}
     key-alias: tomcat
+  servlet:
+    session:
+      timeout: 120m
 
 spring:
   application:

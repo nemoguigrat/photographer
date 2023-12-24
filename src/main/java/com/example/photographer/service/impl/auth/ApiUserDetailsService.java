@@ -25,7 +25,8 @@ public class ApiUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Photographer photographer = photographerRepository.findPhotographerById(Long.parseLong(username));
+        Photographer photographer = photographerRepository.findById(Long.parseLong(username))
+                .orElseThrow(() -> new UsernameNotFoundException("msg"));
 
         if (photographer.getStatus() != UserStatus.APPROVED) {
             throw new UsernameNotFoundException("msg");
