@@ -8,6 +8,8 @@ import org.springframework.session.web.context.AbstractHttpSessionApplicationIni
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds=7200)
+@EnableJdbcHttpSession(
+        maxInactiveIntervalInSeconds=7200
+)
 public class SpringSessionConfig extends AbstractHttpSessionApplicationInitializer {
 }

@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -90,6 +91,12 @@ public class ApiAuthService implements AuthService {
         }
 
         photographerRepository.setToken(userDetails.getId(), request.getToken());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NEVER)
+    public PingResponse ping(Long userId) {
+        return PingResponse.builder().alive(true).build();
     }
 
     private Photographer buildPhotographer(RegisterRequest registerRequest) {

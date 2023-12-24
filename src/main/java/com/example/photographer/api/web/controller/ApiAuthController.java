@@ -42,6 +42,14 @@ public class ApiAuthController {
         apiAuthService.updateToken(userDetails, request);
     }
 
+    @Operation(summary = "Проверка жизни сессии", description = "Работает как запрос заглушка, если запрос выполнен в рамках сессии, " +
+            "то время жизни будет продлено, " +
+            "если сессия протухла, то кинет 404")
+    @GetMapping("/ping")
+    public PingResponse ping(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails) {
+        return apiAuthService.ping(userDetails.getId());
+    }
+
     @Operation(summary = "Выход из системы")
     @GetMapping("/auth/logout")
     public void logout() {} // swagger doc
