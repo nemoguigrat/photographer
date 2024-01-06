@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2024-01-06-18-06" author="ivanovna">
+        <addColumn tableName="event">
+            <column name="description" type="text">
+                <constraints nullable="true" />
+            </column>
+        </addColumn>
+
+        <createTable tableName="allocation_event">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="allocation_event_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_from" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_time" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="code" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="message" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

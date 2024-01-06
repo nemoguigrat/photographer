@@ -1,6 +1,5 @@
 package com.example.photographer.domain;
 
-import com.example.photographer.event.scheduler.PhotographerScheduler;
 import com.example.photographer.service.dto.photographer.request.AdminPhotographerUpdateRequest;
 import com.example.photographer.service.dto.photographer.request.PhotographerUpdateRequest;
 import com.example.photographer.support.ContactType;
@@ -29,7 +28,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class Photographer extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "technique_info_id")
     @Setter
     TechniqueInfo techniqueInfo;
@@ -100,7 +99,7 @@ public class Photographer extends BaseEntity {
     @Column
     String expoPushToken;
 
-    @OneToMany(mappedBy = "photographer")
+    @OneToMany(mappedBy = "photographer", fetch = FetchType.LAZY)
     Set<PhotographerSchedule> schedules = new HashSet<>();
 
     public void updateFrom(PhotographerUpdateRequest request) {

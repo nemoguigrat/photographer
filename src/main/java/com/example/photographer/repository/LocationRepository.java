@@ -17,5 +17,8 @@ public interface LocationRepository extends JpaRepository<Location, Long>, JpaSp
             countQuery = "select count(p.id) from Location p")
     Page<Location> findLocationWithFilter(Pageable pageable);
 
-    List<Location> findByEvent_Id(Long eventId);
+
+    @Query(value = "select distinct p from Location p where p.event.id = :eventId",
+            countQuery = "select count(p.id) from Location p where p.event.id = :eventId")
+    Page<Location> findByEventId(Long eventId, Pageable pageable);
 }

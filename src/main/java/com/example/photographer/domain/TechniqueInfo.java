@@ -36,7 +36,7 @@ public class TechniqueInfo extends BaseEntity {
     @OneToMany(mappedBy = "techniqueInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<AdditionalTechnique> additionalTechniques = new HashSet<>();
 
-    @OneToOne(mappedBy = "techniqueInfo")
+    @OneToOne(mappedBy = "techniqueInfo", fetch = FetchType.LAZY)
     Photographer photographer;
 
     @Column

@@ -8,11 +8,14 @@ import com.example.photographer.service.dto.ListResponse;
 import com.example.photographer.service.dto.activity.response.ActivityResponse;
 import com.example.photographer.service.dto.event.response.EventResponse;
 import com.example.photographer.service.dto.location.response.LocationResponse;
+import com.example.photographer.service.dto.schedule.response.PhotographerScheduleResponse;
 import com.example.photographer.service.dto.zone.response.ZoneResponse;
+import com.example.photographer.service.mapper.PhotographerScheduleMapper;
 import com.example.photographer.support.UmnUserDetails;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,9 @@ public class EventScheduleServiceImpl implements EventScheduleService {
     PhotographerRepository photographerRepository;
     PhotographerScheduleRepository scheduleRepository;
 
+    @Autowired
+    public PhotographerScheduleMapper photographerScheduleMapper;
+
     @Override
     @Transactional(readOnly = true)
     public ListResponse<EventResponse> events(UmnUserDetails userDetails, Pageable pageable) {
@@ -45,26 +51,33 @@ public class EventScheduleServiceImpl implements EventScheduleService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ZoneResponse> zones(UmnUserDetails userDetails, Long eventId) {
-        List<Zone> zones = zoneRepository.findByEvent_Id(eventId);
+    public ListResponse<ZoneResponse> zones(UmnUserDetails userDetails, Long eventId, Pageable pageable) {
+        Page<Zone> zones = zoneRepository.findByEventId(eventId, pageable);
 
-        return zones.stream().map(this::buildResponse).collect(Collectors.toList());
+        return ListResponse.of(zones.map(this::buildResponse));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<LocationResponse> locations(UmnUserDetails userDetails, Long eventId) {
-       List<Location> locations = locationRepository.findByEvent_Id(eventId);
+    public ListResponse<LocationResponse> locations(UmnUserDetails userDetails, Long eventId, Pageable pageable) {
+       Page<Location> locations = locationRepository.findByEventId(eventId, pageable);
 
-        return locations.stream().map(this::buildResponse).collect(Collectors.toList());
+        return ListResponse.of(locations.map(this::buildResponse));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId) {
-        List<Activity> activities = activityRepository.findByEvent_Id(eventId);
+    public ListResponse<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId, Pageable pageable) {
+        Page<Activity> activities = activityRepository.findByEventId(eventId, pageable);
 
-        return activities.stream().map(this::buildResponse).collect(Collectors.toList());
+        return ListResponse.of(activities.map(this::buildResponse));
+    }
+
+    @Override
+    public ListResponse<PhotographerScheduleResponse> photographerEvents(UmnUserDetails userDetails, Pageable pageable) {
+        Page<PhotographerSchedule> photographerSchedules = scheduleRepository.findByPhotographerId(userDetails.getId(), pageable);
+
+        return ListResponse.of(photographerSchedules.map(photographerScheduleMapper::domainToApiResponse));
     }
 
     @Override
@@ -92,6 +105,7 @@ public class EventScheduleServiceImpl implements EventScheduleService {
         return EventResponse.builder()
                 .id(event.getId())
                 .level(event.getLevel())
+                .description(event.getDescription())
                 .address(event.getAddress())
                 .name(event.getName())
                 .startTime(event.getStartTime())
