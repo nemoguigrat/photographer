@@ -9,5 +9,6 @@
     <includeAll path="2023/10" relativeToChangelogFile="true"/>
     <includeAll path="2023/11" relativeToChangelogFile="true"/>
     <includeAll path="2023/12" relativeToChangelogFile="true"/>
+    <includeAll path="2024/01" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

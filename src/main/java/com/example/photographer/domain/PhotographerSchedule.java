@@ -18,11 +18,11 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PhotographerSchedule extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     Event event;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photographer_id", referencedColumnName = "id")
     Photographer photographer;
 
@@ -31,6 +31,7 @@ public class PhotographerSchedule extends BaseEntity {
     Boolean published;
 
     @Column
+    @Setter
     LocalDateTime lastUpdateTime;
 
     // Getters and setters

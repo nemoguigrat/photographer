@@ -34,4 +34,6 @@ public class AdminEventResponse {
     Integer photographersCount;
 
     Boolean published;
+
+    String description;
 }

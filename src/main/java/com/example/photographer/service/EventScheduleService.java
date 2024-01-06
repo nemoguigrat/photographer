@@ -4,6 +4,7 @@ import com.example.photographer.service.dto.ListResponse;
 import com.example.photographer.service.dto.activity.response.ActivityResponse;
 import com.example.photographer.service.dto.event.response.EventResponse;
 import com.example.photographer.service.dto.location.response.LocationResponse;
+import com.example.photographer.service.dto.schedule.response.PhotographerScheduleResponse;
 import com.example.photographer.service.dto.zone.response.ZoneResponse;
 import com.example.photographer.support.UmnUserDetails;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,13 @@ public interface EventScheduleService {
 
     ListResponse<EventResponse> events(UmnUserDetails userDetails, Pageable pageable);
 
-    List<ZoneResponse> zones(UmnUserDetails userDetails, Long eventId);
+    ListResponse<ZoneResponse> zones(UmnUserDetails userDetails, Long eventId, Pageable pageable);
 
-    List<LocationResponse> locations(UmnUserDetails userDetails, Long eventId);
+    ListResponse<LocationResponse> locations(UmnUserDetails userDetails, Long eventId, Pageable pageable);
 
-    List<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId);
+    ListResponse<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId, Pageable pageable);
+
+    ListResponse<PhotographerScheduleResponse> photographerEvents(UmnUserDetails userDetails, Pageable pageable);
 
     void register(UmnUserDetails userDetails, Long eventId);
 

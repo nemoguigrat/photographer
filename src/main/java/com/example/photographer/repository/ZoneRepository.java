@@ -1,6 +1,7 @@
 package com.example.photographer.repository;
 
 import com.example.photographer.domain.Event;
+import com.example.photographer.domain.Location;
 import com.example.photographer.domain.Zone;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,9 @@ public interface ZoneRepository extends JpaRepository<Zone, Long>, JpaSpecificat
             countQuery = "select count(z.id) from Zone z")
     Page<Zone> findZoneWithFilter(Pageable pageable);
 
-    List<Zone> findByEvent_Id(Long eventId);
+    @Query(value = "select distinct p from Zone p where p.event.id = :eventId",
+            countQuery = "select count(p.id) from Zone p where p.event.id = :eventId")
+    Page<Zone> findByEventId(Long eventId, Pageable pageable);
 
     @Query("select z from Zone z left join fetch z.event where z.id = :zoneId")
     Optional<Zone> findAndFetchEvent(Long zoneId);

@@ -74,6 +74,7 @@ public class AdminEventServiceImpl implements AdminEventService {
                 .address(event.getAddress())
                 .level(event.getLevel())
                 .name(event.getName())
+                .description(event.getDescription())
                 .driveLink(event.getDriveLink())
                 .startTime(event.getStartTime())
                 .endTime(event.getEndTime())

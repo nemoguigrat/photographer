@@ -28,4 +28,6 @@ public class EventResponse {
     ZoneId timeZone;
 
     String address;
+
+    String description;
 }

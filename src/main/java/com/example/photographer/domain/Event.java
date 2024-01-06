@@ -52,6 +52,9 @@ public class Event extends BaseEntity {
     @Column
     Integer photographersCount;
 
+    @Column
+    String description;
+
     public Event(AdminEventRequest request) {
         applyFromRequest(request);
     }
@@ -66,5 +69,6 @@ public class Event extends BaseEntity {
         this.timeZone = request.getTimeZone() != null ? TimeZone.getTimeZone(request.getTimeZone()) : null;
         this.photographersCount = request.getPhotographersCount();
         this.published = request.getPublished();
+        this.description = request.getDescription();
     }
 }

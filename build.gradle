@@ -35,7 +35,8 @@ dependencies {
                 'org.apache.tika:tika-core:2.4.1',
                 'io.github.jav:expo-server-sdk:1.1.0',
                 'net.javacrumbs.shedlock:shedlock-spring:4.44.0',
-                'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.44.0'
+                'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.44.0',
+                'org.mapstruct:mapstruct:1.5.5.Final'
 
     compileOnly 'org.projectlombok:lombok'
 
@@ -45,7 +46,9 @@ dependencies {
             'org.liquibase:liquibase-core'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor',
-            'org.projectlombok:lombok'
+            'org.projectlombok:lombok',
+            'org.mapstruct:mapstruct-processor:1.5.5.Final',
+            'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
