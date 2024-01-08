@@ -1,6 +1,7 @@
 package com.example.photographer.api.web.controller;
 
 import com.example.photographer.service.ScheduleService;
+import com.example.photographer.service.dto.schedule.part.response.SchedulePartResponse;
 import com.example.photographer.service.dto.schedule.request.FreetimeRequest;
 import com.example.photographer.service.dto.schedule.request.PriorityRequest;
 import com.example.photographer.service.dto.schedule.response.FreetimeResponse;
@@ -23,6 +24,12 @@ import static lombok.AccessLevel.PRIVATE;
 public class PhotographerScheduleController {
 
     ScheduleService scheduleService;
+
+    @GetMapping("/event/{eventId}/schedule")
+    public List<SchedulePartResponse> schedule(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails,
+                                               @PathVariable Long eventId) {
+        return scheduleService.schedule(userDetails, eventId);
+    }
 
     @GetMapping("/event/{eventId}/freetime")
     public List<FreetimeResponse> freetime(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails,

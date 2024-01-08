@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 @Value(staticConstructor = "of")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ScheduleChangedEvent {
+public class UserBlockedEvent {
 
-    Long eventId;
+    Long id;
 }

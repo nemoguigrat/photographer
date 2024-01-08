@@ -1,12 +1,10 @@
 package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Activity;
-import com.example.photographer.domain.Location;
 import com.example.photographer.domain.PhotographerSchedule;
 import com.example.photographer.domain.PhotographerSchedulePart;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.*;
-import com.example.photographer.repository.specification.LocationSpec;
 import com.example.photographer.repository.specification.SchedulePartSpec;
 import com.example.photographer.service.AdminSchedulePartsService;
 import com.example.photographer.service.dto.AdminListResponse;
@@ -22,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -54,9 +54,10 @@ public class AdminSchedulePartsServiceImpl implements AdminSchedulePartsService 
         PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(request.getPhotographerId(), request.getEventId())
                 .orElseThrow(() -> new NotFoundException(request.getPhotographerId()));
         part.setActivity(activity);
-        part.setPhotographerScheduleId(photographerSchedule);
+        part.setPhotographerSchedule(photographerSchedule);
         part.setStartTime(request.getStartTime());
         part.setEndTime(request.getEndTime());
+        part.setLastUpdateTime(LocalDateTime.now());
         schedulePartRepository.save(part);
     }
 
@@ -66,6 +67,7 @@ public class AdminSchedulePartsServiceImpl implements AdminSchedulePartsService 
         PhotographerSchedulePart part = schedulePartRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         part.setStartTime(request.getStartTime());
         part.setEndTime(request.getEndTime());
+        part.setLastUpdateTime(LocalDateTime.now());
     }
 
     @Override
@@ -77,8 +79,8 @@ public class AdminSchedulePartsServiceImpl implements AdminSchedulePartsService 
     private AdminSchedulePartResponse buildResponse(PhotographerSchedulePart schedulePart) {
         return AdminSchedulePartResponse.builder()
                 .id(schedulePart.getId())
-                .photographerScheduleId(NullSafeUtils.safeGetId(schedulePart.getPhotographerScheduleId()))
-                .photographerId(NullSafeUtils.safeGetId(schedulePart.getPhotographerScheduleId().getPhotographer()))
+                .photographerScheduleId(NullSafeUtils.safeGetId(schedulePart.getPhotographerSchedule()))
+                .photographerId(NullSafeUtils.safeGetId(schedulePart.getPhotographerSchedule().getPhotographer()))
                 .activityId(NullSafeUtils.safeGetId(schedulePart.getActivity()))
                 .startTime(schedulePart.getStartTime())
                 .endTime(schedulePart.getEndTime())

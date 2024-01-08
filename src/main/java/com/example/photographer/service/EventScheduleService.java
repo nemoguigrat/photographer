@@ -23,6 +23,12 @@ public interface EventScheduleService {
 
     ListResponse<ActivityResponse> activities(UmnUserDetails userDetails, Long eventId, Pageable pageable);
 
+    ZoneResponse zone(UmnUserDetails userDetails, Long zoneId);
+
+    LocationResponse location(UmnUserDetails userDetails, Long locationId);
+
+    ActivityResponse activity(UmnUserDetails userDetails, Long activityId);
+
     ListResponse<PhotographerScheduleResponse> photographerEvents(UmnUserDetails userDetails, Pageable pageable);
 
     void register(UmnUserDetails userDetails, Long eventId);

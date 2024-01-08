@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -22,4 +23,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, JpaSp
     @Query(value = "select distinct p from Activity p where p.event.id = :eventId",
             countQuery = "select count(p.id) from Activity p where p.event.id = :eventId")
     Page<Activity> findByEventId(Long eventId, Pageable pageable);
+
+    @Query("select distinct e.id from Activity a left join a.event e where a.lastUpdateTime >= :delay")
+    List<Long> findLastModified(LocalDateTime delay);
 }

@@ -78,9 +78,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
 
         Activity activity = new Activity(request);
         updateActivityRelationByRef(activity, request);
-        Activity saved = activityRepository.saveAndFlush(activity);
-
-        publisher.publishEvent(ScheduleChangedEvent.builder().eventId(saved.getEvent().getId()).build());
+        activityRepository.saveAndFlush(activity);
     }
 
     @Override
@@ -93,8 +91,6 @@ public class AdminActivityServiceImpl implements AdminActivityService {
         Activity activity = activityRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         activity.applyFromRequest(request);
         updateActivityRelationByRef(activity, request);
-
-        publisher.publishEvent(ScheduleChangedEvent.builder().eventId(activity.getEvent().getId()).build());
     }
 
     @Override
@@ -128,10 +124,6 @@ public class AdminActivityServiceImpl implements AdminActivityService {
                 events.add(request.get().getEventId());
             }
         }
-
-        events.forEach(
-                e -> publisher.publishEvent(ScheduleChangedEvent.builder().eventId(e).build())
-        );
 
         return Collections.emptyList();
     }

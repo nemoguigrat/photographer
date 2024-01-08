@@ -2,6 +2,7 @@ package com.example.photographer.event.listener;
 
 import com.example.photographer.event.EventPublishEvent;
 import com.example.photographer.event.ScheduleChangedEvent;
+import com.example.photographer.event.UserBlockedEvent;
 import com.example.photographer.service.push.PhotographerNotificationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,11 @@ public class PhotographerEventListener {
     @TransactionalEventListener
     public void handleEvent(EventPublishEvent publishEvent) {
         notificationService.sendEventPublishedPush(publishEvent);
+    }
+
+    @Async("taskExecutor")
+    @TransactionalEventListener
+    public void handleEvent(UserBlockedEvent blockedEvent) {
+        notificationService.sendUserBlockedPush(blockedEvent);
     }
 }
