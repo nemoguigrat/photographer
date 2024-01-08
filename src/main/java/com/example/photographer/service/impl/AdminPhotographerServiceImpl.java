@@ -2,6 +2,8 @@ package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.Photographer;
 import com.example.photographer.domain.TechniqueInfo;
+import com.example.photographer.event.EventPublishEvent;
+import com.example.photographer.event.UserBlockedEvent;
 import com.example.photographer.exception.UserAlreadyExists;
 import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.service.AdminPhotographerService;
@@ -14,6 +16,8 @@ import com.example.photographer.support.UserStatus;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +33,7 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
 
     PhotographerRepository repository;
     PasswordEncoder passwordEncoder;
+    ApplicationEventPublisher publisher;
 
     @Override
     @Transactional(readOnly = true)
@@ -71,11 +76,17 @@ public class AdminPhotographerServiceImpl implements AdminPhotographerService {
     @Transactional
     public void update(AdminPhotographerUpdateRequest request) {
         Photographer photographer = repository.findPhotographerById(request.getId());
+        UserStatus oldStatus = photographer.getStatus();
 
         if (!photographer.getEmail().equals(request.getEmail()) && repository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExists("Пользователь с таким адресом уже существует!");
         }
+
         photographer.updateFrom(request);
+
+        if (oldStatus != UserStatus.BLOCKED && photographer.getStatus() == UserStatus.BLOCKED) {
+            publisher.publishEvent(UserBlockedEvent.of(photographer.getId()));
+        }
     }
 
     @Override

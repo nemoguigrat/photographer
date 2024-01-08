@@ -62,7 +62,9 @@ default:
 
 photographers:
   jobs:
-    notify: "5 4 * * * *"
+    notify:
+      before-event: "0 0/2 0/1 ? * *"
+      event-changes: "0 0 0/1 ? * *"
   default-image: classpath:/static/default.jpg
   mediaTypes:
     - image/jpeg

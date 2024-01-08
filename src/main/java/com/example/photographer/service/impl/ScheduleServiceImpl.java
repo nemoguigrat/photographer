@@ -4,6 +4,7 @@ import com.example.photographer.domain.*;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.repository.*;
 import com.example.photographer.service.ScheduleService;
+import com.example.photographer.service.dto.schedule.part.response.SchedulePartResponse;
 import com.example.photographer.service.dto.schedule.request.FreetimeRequest;
 import com.example.photographer.service.dto.schedule.request.PriorityRequest;
 import com.example.photographer.service.dto.schedule.response.FreetimeResponse;
@@ -28,6 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     PhotographerFreetimeRepository freetimeRepository;
     PhotographerZonePriorityRepository zonePriorityRepository;
     PhotographerScheduleRepository photographerScheduleRepository;
+    SchedulePartRepository schedulePartRepository;
     ZoneRepository zoneRepository;
     PhotographerRepository photographerRepository;
     EventRepository eventRepository;
@@ -41,6 +43,21 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .id(p.getId())
                 .startTime(p.getStartTime())
                 .endTime(p.getEndTime())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SchedulePartResponse> schedule(UmnUserDetails userDetails, Long eventId) {
+        PhotographerSchedule schedule = photographerScheduleRepository.findByPhotographerId(userDetails.getId(), eventId)
+                .orElseThrow(() -> new NotFoundException(eventId));
+        List<PhotographerSchedulePart> parts = schedulePartRepository.findParts(schedule);
+
+        return parts.stream().map(s -> SchedulePartResponse.builder()
+                .id(s.getId())
+                .activityId(NullSafeUtils.safeGetId(s.getActivity()))
+                .startTime(s.getStartTime())
+                .endTime(s.getEndTime())
                 .build()).collect(Collectors.toList());
     }
 

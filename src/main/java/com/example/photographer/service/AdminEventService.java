@@ -7,6 +7,9 @@ import com.example.photographer.service.dto.event.response.AdminEventResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface AdminEventService {
 
     AdminListResponse<AdminEventResponse> findAll(AdminEventFilter filter, Pageable pageable);
@@ -18,4 +21,6 @@ public interface AdminEventService {
     void update(@PathVariable Long id, @RequestBody AdminEventRequest request);
 
     void delete(@PathVariable Long id);
+
+    List<Long> findLastChangedEvents(long seconds);
 }

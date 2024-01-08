@@ -90,5 +90,6 @@ public class Activity extends BaseEntity {
         this.shootingType = request.getShootingType();
         this.importantPersons = request.getImportantPersons();
         this.activityCode = request.getActivityCode();
+        this.lastUpdateTime = LocalDateTime.now();
     }
 }

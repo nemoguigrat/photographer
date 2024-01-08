@@ -23,7 +23,7 @@ public class PhotographerSchedulePart extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "photographer_schedule_id")
-    PhotographerSchedule photographerScheduleId;
+    PhotographerSchedule photographerSchedule;
 
     @Column
     LocalDateTime startTime;
@@ -32,8 +32,12 @@ public class PhotographerSchedulePart extends BaseEntity {
     LocalDateTime endTime;
 
     @Column
+    @Setter
     LocalDateTime lastUpdateTime;
 
     @Column
     Boolean conflict;
+
+    @Column
+    LocalDateTime notifiedTime;
 }

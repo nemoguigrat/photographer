@@ -1,6 +1,7 @@
 package com.example.photographer.service.impl;
 
 import com.example.photographer.domain.*;
+import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
 import com.example.photographer.repository.*;
 import com.example.photographer.service.EventScheduleService;
@@ -22,8 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.photographer.util.NullSafeUtils.safeGetId;
 
@@ -74,6 +73,28 @@ public class EventScheduleServiceImpl implements EventScheduleService {
     }
 
     @Override
+    public ZoneResponse zone(UmnUserDetails userDetails, Long zoneId) {
+        Zone zone = zoneRepository.findById(zoneId).orElseThrow(() -> new NotFoundException(zoneId));
+
+        return buildResponse(zone);
+    }
+
+    @Override
+    public LocationResponse location(UmnUserDetails userDetails, Long locationId) {
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new NotFoundException(locationId));
+
+        return buildResponse(location);
+    }
+
+    @Override
+    public ActivityResponse activity(UmnUserDetails userDetails, Long activityId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new NotFoundException(activityId));
+
+        return buildResponse(activity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public ListResponse<PhotographerScheduleResponse> photographerEvents(UmnUserDetails userDetails, Pageable pageable) {
         Page<PhotographerSchedule> photographerSchedules = scheduleRepository.findByPhotographerId(userDetails.getId(), pageable);
 

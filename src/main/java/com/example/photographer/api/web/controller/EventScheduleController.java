@@ -48,6 +48,21 @@ public class EventScheduleController {
         return scheduleService.activities(userDetails, eventId, pageable);
     }
 
+    @GetMapping("/event/location")
+    public LocationResponse location(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @RequestParam Long locationId) {
+        return scheduleService.location(userDetails, locationId);
+    }
+
+    @GetMapping("/event/zone")
+    public ZoneResponse zone(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @RequestParam Long zoneId) {
+        return scheduleService.zone(userDetails, zoneId);
+    }
+
+    @GetMapping("/event/activity")
+    public ActivityResponse activity(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @RequestParam Long activityId) {
+        return scheduleService.activity(userDetails, activityId);
+    }
+
     @GetMapping("/event/list/photographer")
     public ListResponse<PhotographerScheduleResponse> photographerEvents(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails, @ParameterObject Pageable pageable) {
         return scheduleService.photographerEvents(userDetails, pageable);
