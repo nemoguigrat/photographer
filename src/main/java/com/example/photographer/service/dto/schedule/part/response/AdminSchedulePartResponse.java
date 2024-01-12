@@ -20,6 +20,8 @@ public class AdminSchedulePartResponse {
 
     Long activityId;
 
+    String activityName;
+
     LocalDateTime startTime;
 
     LocalDateTime endTime;
