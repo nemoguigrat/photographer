@@ -77,13 +77,20 @@ public class AdminSchedulePartsServiceImpl implements AdminSchedulePartsService 
     }
 
     private AdminSchedulePartResponse buildResponse(PhotographerSchedulePart schedulePart) {
-        return AdminSchedulePartResponse.builder()
+        var result = AdminSchedulePartResponse.builder()
                 .id(schedulePart.getId())
                 .photographerScheduleId(NullSafeUtils.safeGetId(schedulePart.getPhotographerSchedule()))
                 .photographerId(NullSafeUtils.safeGetId(schedulePart.getPhotographerSchedule().getPhotographer()))
                 .activityId(NullSafeUtils.safeGetId(schedulePart.getActivity()))
                 .startTime(schedulePart.getStartTime())
-                .endTime(schedulePart.getEndTime())
-                .build();
+                .endTime(schedulePart.getEndTime());
+
+        Activity activity = schedulePart.getActivity();
+        if (activity != null) {
+            result.activityId(activity.getId())
+                    .activityName(activity.getName());
+        }
+
+        return result.build();
     }
 }

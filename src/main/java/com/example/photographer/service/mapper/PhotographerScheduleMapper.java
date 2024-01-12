@@ -11,6 +11,9 @@ public interface PhotographerScheduleMapper {
 
     @Mapping(source = "photographerSchedule.event.id", target = "eventId")
     @Mapping(source = "photographerSchedule.photographer.id", target = "photographerId")
+    @Mapping(source = "photographerSchedule.photographer.firstname", target = "firstname")
+    @Mapping(source = "photographerSchedule.photographer.surname", target = "surname")
+    @Mapping(source = "photographerSchedule.photographer.middleName", target = "middleName")
     AdminPhotographerScheduleResponse domainToAdminResponse(PhotographerSchedule photographerSchedule);
 
     @Mapping(source = "photographerSchedule.event.id", target = "eventId")

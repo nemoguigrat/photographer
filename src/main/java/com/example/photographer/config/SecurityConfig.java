@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -37,7 +38,15 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
-            "/actuator/**"
+            "/actuator/**",
+    };
+
+    private static final String[] WHITE_ADMIN_LIST_URLS = {
+            "/admin/activity/short/all",
+            "/admin/activity/*",
+            "/admin/event/*",
+            "/admin/location/all",
+            "/admin/zone/all"
     };
 
     private static final String PATH_API = "/api/**";
@@ -114,6 +123,7 @@ public class SecurityConfig {
                 .authenticationProvider(adminAuthProvider())
                 .authorizeHttpRequests(customizer -> customizer
                         .antMatchers("/admin/auth/**").permitAll()
+                        .antMatchers(HttpMethod.GET, WHITE_ADMIN_LIST_URLS).permitAll()
                         .antMatchers(PATH_ADMIN).hasRole("ADMIN")
                 )
                 .exceptionHandling(customizer -> customizer
