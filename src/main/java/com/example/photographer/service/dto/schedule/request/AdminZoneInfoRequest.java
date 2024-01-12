@@ -17,4 +17,6 @@ public class AdminZoneInfoRequest {
     Long photographerScheduleId;
 
     Integer priority;
+
+    boolean confirmed = false;
 }
