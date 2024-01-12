@@ -22,8 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -36,14 +34,14 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
 
     @Override
     public AdminListResponse<AdminZoneInfoResponse> findAll(AdminZoneInfoFilter filter, Pageable pageable) {
-        Page<PhotographerZoneInfo> freetimes = zoneInfoRepository.findAll(ZoneInfoSpec.filter(filter), pageable);
-        return AdminListResponse.of(freetimes.map(this::buildResponse));
+        Page<PhotographerZoneInfo> zoneInfo = zoneInfoRepository.findAll(ZoneInfoSpec.filter(filter), pageable);
+        return AdminListResponse.of(zoneInfo.map(this::buildResponse));
     }
 
     @Override
     public AdminZoneInfoResponse find(Long id) {
-        PhotographerZoneInfo freetime = zoneInfoRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
-        return buildResponse(freetime);
+        PhotographerZoneInfo zoneInfo = zoneInfoRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return buildResponse(zoneInfo);
     }
 
     @Override
@@ -56,6 +54,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
                 .photographerSchedule(photographerSchedule)
                 .zone(zone)
                 .priority(request.getPriority())
+                .confirmed(request.isConfirmed())
                 .build());
     }
 
@@ -64,6 +63,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
         PhotographerZoneInfo photographerZoneInfo =  zoneInfoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
         photographerZoneInfo.setPriority(request.getPriority());
+        photographerZoneInfo.setConfirmed(request.isConfirmed());
     }
 
     @Override
@@ -77,6 +77,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
                 .photographerScheduleId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule()))
                 .zoneId(NullSafeUtils.safeGetId(zoneInfo.getZone()))
                 .priority(zoneInfo.getPriority())
+                .confirmed(zoneInfo.isConfirmed())
                 .build();
     }
 }
