@@ -164,7 +164,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(List.of("*"));
 
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]", "https://localhost:[*]", "https://shumakooov.github.io"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:[*]", "https://localhost:[*]", "https://shumakooov.github.io", "https://photographersekb.ru", "https://photographersekb.ru:[*]"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
