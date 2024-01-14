@@ -3,11 +3,13 @@ package com.example.photographer.service.impl;
 import com.example.photographer.domain.Event;
 import com.example.photographer.domain.Photographer;
 import com.example.photographer.domain.PhotographerSchedule;
+import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
 import com.example.photographer.repository.EventRepository;
 import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.repository.PhotographerScheduleRepository;
+import com.example.photographer.repository.ZoneRepository;
 import com.example.photographer.repository.specification.ScheduleSpec;
 import com.example.photographer.service.AdminPhotographerScheduleService;
 import com.example.photographer.service.dto.AdminListResponse;
@@ -34,6 +36,7 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
     PhotographerScheduleRepository photographerScheduleRepository;
     EventRepository eventRepository;
     PhotographerRepository photographerRepository;
+    ZoneRepository zoneRepository;
 
     @Autowired
     public PhotographerScheduleMapper photographerScheduleMapper;
@@ -61,10 +64,12 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
 
         Photographer photographer = photographerRepository.findPhotographerById(request.getPhotographerId());
         Event event = eventRepository.findById(request.getEventId()).orElseThrow(() -> new NotFoundException(request.getEventId()));
+        Zone zone = zoneRepository.findById(request.getZoneId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
 
         PhotographerSchedule schedule = PhotographerSchedule.builder()
                 .photographer(photographer)
                 .event(event)
+                .zone(zone)
                 .published(request.getPublished())
                 .lastUpdateTime(LocalDateTime.now())
                 .build();
@@ -74,10 +79,16 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
 
     @Override
     @Transactional
-    public void update(Long id, Boolean published) {
+    public void update(Long id, Boolean published, Long zoneId) {
         PhotographerSchedule schedule = photographerScheduleRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         schedule.setPublished(published);
+
+        if (zoneId != null) {
+            Zone zone = zoneRepository.findById(zoneId).orElseThrow(() -> new NotFoundException(zoneId));
+            schedule.setZone(zone);
+        }
+
         schedule.setLastUpdateTime(LocalDateTime.now());
     }
 

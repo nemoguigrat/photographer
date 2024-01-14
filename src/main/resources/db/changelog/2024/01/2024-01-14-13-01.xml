@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2024-01-14-13-01" author="ivanovna">
+        <dropColumn tableName="photographer_zone_info" columnName="confirmed" />
+
+        <addColumn tableName="photographer_schedule">
+            <column name="zone_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="photographer_schedule"
+                                 baseColumnNames="zone_id"
+                                 constraintName="fk_photographer_schedule_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="photographer_schedule" indexName="idx_photographer_schedule_zone_id">
+            <column name="zone_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

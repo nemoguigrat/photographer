@@ -14,6 +14,8 @@ public class PhotographerScheduleResponse {
 
     Long eventId;
 
+    Long zoneId;
+
     String eventName;
 
     String eventDescription;

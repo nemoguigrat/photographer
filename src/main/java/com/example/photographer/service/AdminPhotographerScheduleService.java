@@ -14,7 +14,7 @@ public interface AdminPhotographerScheduleService {
 
     void create(AdminPhotographerScheduleRequest request);
 
-    void update(Long id, Boolean request);
+    void update(Long id, Boolean published, Long zoneId);
 
     void delete(Long id);
 }

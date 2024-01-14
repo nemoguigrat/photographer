@@ -54,7 +54,6 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
                 .photographerSchedule(photographerSchedule)
                 .zone(zone)
                 .priority(request.getPriority())
-                .confirmed(request.isConfirmed())
                 .build());
     }
 
@@ -63,7 +62,6 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
         PhotographerZoneInfo photographerZoneInfo =  zoneInfoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
         photographerZoneInfo.setPriority(request.getPriority());
-        photographerZoneInfo.setConfirmed(request.isConfirmed());
     }
 
     @Override
@@ -77,7 +75,6 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
                 .photographerScheduleId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule()))
                 .zoneId(NullSafeUtils.safeGetId(zoneInfo.getZone()))
                 .priority(zoneInfo.getPriority())
-                .confirmed(zoneInfo.isConfirmed())
                 .build();
     }
 }

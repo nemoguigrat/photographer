@@ -16,6 +16,8 @@ public class AdminPhotographerScheduleResponse {
 
     Long photographerId;
 
+    Long zoneId;
+
     Boolean published;
 
     String firstname;
