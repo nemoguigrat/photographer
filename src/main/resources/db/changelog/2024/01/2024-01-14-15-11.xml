@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2024-01-14-15-11" author="ivanovna">
+        <createTable tableName="photographer_evaluation">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="photographer_evaluation_pk"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photographer_schedule_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quality" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="punctuality" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="judgment" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="comment" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="photographer_evaluation"
+                                 baseColumnNames="photographer_schedule_id"
+                                 constraintName="fk_photographer_evaluation_photographer_schedule_id"
+                                 referencedTableName="photographer_schedule"
+                                 referencedColumnNames="id" />
+        <createIndex unique="false" tableName="photographer_evaluation" indexName="idx_photographer_evaluation_photographer_schedule_id">
+            <column name="photographer_schedule_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

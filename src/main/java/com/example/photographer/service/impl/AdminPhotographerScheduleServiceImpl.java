@@ -1,15 +1,10 @@
 package com.example.photographer.service.impl;
 
-import com.example.photographer.domain.Event;
-import com.example.photographer.domain.Photographer;
-import com.example.photographer.domain.PhotographerSchedule;
-import com.example.photographer.domain.Zone;
+import com.example.photographer.config.properties.PhotographerProperties;
+import com.example.photographer.domain.*;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
-import com.example.photographer.repository.EventRepository;
-import com.example.photographer.repository.PhotographerRepository;
-import com.example.photographer.repository.PhotographerScheduleRepository;
-import com.example.photographer.repository.ZoneRepository;
+import com.example.photographer.repository.*;
 import com.example.photographer.repository.specification.ScheduleSpec;
 import com.example.photographer.service.AdminPhotographerScheduleService;
 import com.example.photographer.service.dto.AdminListResponse;
@@ -37,6 +32,8 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
     EventRepository eventRepository;
     PhotographerRepository photographerRepository;
     ZoneRepository zoneRepository;
+    PhotographerEvaluationRepository evaluationRepository;
+    PhotographerProperties photographerProperties;
 
     @Autowired
     public PhotographerScheduleMapper photographerScheduleMapper;
@@ -74,7 +71,9 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
                 .lastUpdateTime(LocalDateTime.now())
                 .build();
 
-        photographerScheduleRepository.save(schedule);
+        schedule = photographerScheduleRepository.save(schedule);
+
+        evaluationRepository.save(new PhotographerEvaluation(schedule, photographerProperties.getDefaultEvaluation()));
     }
 
     @Override

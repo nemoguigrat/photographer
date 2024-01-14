@@ -1,5 +1,6 @@
 package com.example.photographer.service.impl;
 
+import com.example.photographer.config.properties.PhotographerProperties;
 import com.example.photographer.domain.*;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
@@ -37,6 +38,8 @@ public class EventScheduleServiceImpl implements EventScheduleService {
     LocationRepository locationRepository;
     PhotographerRepository photographerRepository;
     PhotographerScheduleRepository scheduleRepository;
+    PhotographerEvaluationRepository evaluationRepository;
+    PhotographerProperties photographerProperties;
 
     @Autowired
     public PhotographerScheduleMapper photographerScheduleMapper;
@@ -108,12 +111,14 @@ public class EventScheduleServiceImpl implements EventScheduleService {
             throw new ScheduleAlreadyExists();
         }
 
-        scheduleRepository.save(PhotographerSchedule.builder()
+        PhotographerSchedule schedule = scheduleRepository.save(PhotographerSchedule.builder()
                 .photographer(photographerRepository.getReferenceById(userDetails.getId()))
                 .event(eventRepository.getReferenceById(eventId))
                 .published(false)
                 .lastUpdateTime(LocalDateTime.now())
                 .build());
+
+        evaluationRepository.save(new PhotographerEvaluation(schedule, photographerProperties.getDefaultEvaluation()));
     }
 
     @Override
