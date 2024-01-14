@@ -20,4 +20,6 @@ public class PhotographerProperties {
     List<String> mediaTypes = List.of("image/jpeg");
 
     Long delaySeconds = 3600L;
+
+    Integer defaultEvaluation = 0;
 }

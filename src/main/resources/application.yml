@@ -66,6 +66,7 @@ photographers:
       before-event: "0 0/2 0/1 ? * *"
       event-changes: "0 0 0/1 ? * *"
   default-image: classpath:/static/default.jpg
+  default-evaluation: 7
   mediaTypes:
     - image/jpeg
     - image/jpg
