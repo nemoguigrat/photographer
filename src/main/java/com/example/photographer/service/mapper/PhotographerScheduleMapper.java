@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface PhotographerScheduleMapper {
 
     @Mapping(source = "photographerSchedule.event.id", target = "eventId")
+    @Mapping(source = "photographerSchedule.zone.id", target = "zoneId")
     @Mapping(source = "photographerSchedule.photographer.id", target = "photographerId")
     @Mapping(source = "photographerSchedule.photographer.firstname", target = "firstname")
     @Mapping(source = "photographerSchedule.photographer.surname", target = "surname")
@@ -17,6 +18,7 @@ public interface PhotographerScheduleMapper {
     AdminPhotographerScheduleResponse domainToAdminResponse(PhotographerSchedule photographerSchedule);
 
     @Mapping(source = "photographerSchedule.event.id", target = "eventId")
+    @Mapping(source = "photographerSchedule.zone.id", target = "zoneId")
     @Mapping(source = "photographerSchedule.event.name", target = "eventName")
     @Mapping(source = "photographerSchedule.event.description", target = "eventDescription")
     PhotographerScheduleResponse domainToApiResponse(PhotographerSchedule photographerSchedule);

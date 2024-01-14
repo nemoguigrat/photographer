@@ -28,6 +28,7 @@ public class ScheduleSpec {
             if (Long.class != query.getResultType()) {
                 root.fetch(PhotographerSchedule.Fields.photographer, JoinType.LEFT);
                 root.fetch(PhotographerSchedule.Fields.event, JoinType.LEFT);
+                root.fetch(PhotographerSchedule.Fields.zone, JoinType.LEFT);
                 query.distinct(true);
             }
 

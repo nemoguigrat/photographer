@@ -34,6 +34,11 @@ public class PhotographerSchedule extends BaseEntity {
     @Setter
     LocalDateTime lastUpdateTime;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zone_id")
+    @Setter
+    Zone zone;
+
     // Getters and setters
 
 }

@@ -37,8 +37,8 @@ public class AdminPhotographerScheduleController {
     }
 
     @PutMapping("/schedule/{id}")
-    public void update(@PathVariable Long id, @RequestParam Boolean published) {
-        adminPhotographerScheduleService.update(id, published);
+    public void update(@PathVariable Long id, @RequestParam Boolean published, @RequestParam(required = false) Long zoneId) {
+        adminPhotographerScheduleService.update(id, published, zoneId);
     }
 
     @DeleteMapping("/schedule/{id}")

@@ -12,6 +12,8 @@ public class AdminPhotographerScheduleRequest {
 
     Long eventId;
 
+    Long zoneId;
+
     Long photographerId;
 
     Boolean published;
