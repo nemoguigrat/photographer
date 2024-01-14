@@ -16,13 +16,18 @@ public class ZoneInfoSpec {
             List<Predicate> predicates = new ArrayList<>();
 
             if (filter.getZoneId() != null) {
-                Predicate zone = cb.equal(root.get(PhotographerZoneInfo.Fields.zone).get("id"), filter.getEventId());
+                Predicate zone = cb.equal(root.get(PhotographerZoneInfo.Fields.zone).get("id"), filter.getZoneId());
                 predicates.add(zone);
             }
 
             if (filter.getPhotographerScheduleId() != null) {
                 Predicate photographerSchedule = cb.equal(root.get(PhotographerZoneInfo.Fields.photographerSchedule).get("id"), filter.getPhotographerScheduleId());
                 predicates.add(photographerSchedule);
+            }
+
+            if (filter.getEventId() != null) {
+                Predicate event = cb.equal(root.get(PhotographerZoneInfo.Fields.photographerSchedule).get(PhotographerSchedule.Fields.event).get("id"), filter.getEventId());
+                predicates.add(event);
             }
 
             if (filter.getPhotographerId() != null) {
