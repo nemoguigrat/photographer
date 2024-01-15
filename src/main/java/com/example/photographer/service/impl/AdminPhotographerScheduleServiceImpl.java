@@ -5,7 +5,6 @@ import com.example.photographer.domain.*;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
 import com.example.photographer.repository.*;
-import com.example.photographer.repository.specification.ScheduleSpec;
 import com.example.photographer.service.AdminPhotographerScheduleService;
 import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.schedule.request.AdminPhotographerScheduleFilter;
