@@ -14,7 +14,17 @@ public class AdminZoneInfoResponse {
 
     Long zoneId;
 
+    Long eventId;
+
+    Long photographerId;
+
     Long photographerScheduleId;
+
+    String firstname;
+
+    String surname;
+
+    String middleName;
 
     Integer priority;
 }

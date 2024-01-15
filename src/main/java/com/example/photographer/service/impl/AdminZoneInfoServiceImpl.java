@@ -1,10 +1,10 @@
 package com.example.photographer.service.impl;
 
+import com.example.photographer.domain.Photographer;
 import com.example.photographer.domain.PhotographerSchedule;
 import com.example.photographer.domain.PhotographerZoneInfo;
 import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.NotFoundException;
-import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.repository.PhotographerScheduleRepository;
 import com.example.photographer.repository.PhotographerZonePriorityRepository;
 import com.example.photographer.repository.ZoneRepository;
@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,23 +29,25 @@ import org.springframework.stereotype.Service;
 public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
 
     PhotographerZonePriorityRepository zoneInfoRepository;
-    PhotographerRepository photographerRepository;
     ZoneRepository zoneRepository;
     PhotographerScheduleRepository photographerScheduleRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public AdminListResponse<AdminZoneInfoResponse> findAll(AdminZoneInfoFilter filter, Pageable pageable) {
         Page<PhotographerZoneInfo> zoneInfo = zoneInfoRepository.findAll(ZoneInfoSpec.filter(filter), pageable);
         return AdminListResponse.of(zoneInfo.map(this::buildResponse));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AdminZoneInfoResponse find(Long id) {
         PhotographerZoneInfo zoneInfo = zoneInfoRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         return buildResponse(zoneInfo);
     }
 
     @Override
+    @Transactional
     public void create(AdminZoneInfoRequest request) {
         Zone zone = zoneRepository.findById(request.getZoneId()).orElseThrow(() -> new NotFoundException(request.getZoneId()));
         PhotographerSchedule photographerSchedule = photographerScheduleRepository.findByPhotographerId(request.getPhotographerId(), zone.getEvent().getId())
@@ -58,6 +61,7 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
     }
 
     @Override
+    @Transactional
     public void update(Long id, AdminZoneInfoRequest request) {
         PhotographerZoneInfo photographerZoneInfo =  zoneInfoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
@@ -65,16 +69,29 @@ public class AdminZoneInfoServiceImpl implements AdminZoneInfoService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         zoneInfoRepository.deleteById(id);
     }
 
     AdminZoneInfoResponse buildResponse(PhotographerZoneInfo zoneInfo) {
-        return AdminZoneInfoResponse.builder()
+        var result = AdminZoneInfoResponse.builder()
                 .id(zoneInfo.getId())
-                .photographerScheduleId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule()))
                 .zoneId(NullSafeUtils.safeGetId(zoneInfo.getZone()))
-                .priority(zoneInfo.getPriority())
-                .build();
+                .priority(zoneInfo.getPriority());
+
+        if (zoneInfo.getPhotographerSchedule() != null) {
+            Photographer photographer = zoneInfo.getPhotographerSchedule().getPhotographer();
+
+            result.photographerScheduleId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule()))
+                    .photographerId(NullSafeUtils.safeGetId(photographer))
+                    .eventId(NullSafeUtils.safeGetId(zoneInfo.getPhotographerSchedule().getEvent()))
+                    .firstname(photographer.getFirstname())
+                    .surname(photographer.getSurname())
+                    .middleName(photographer.getMiddleName());
+
+        }
+
+        return result.build();
     }
 }
