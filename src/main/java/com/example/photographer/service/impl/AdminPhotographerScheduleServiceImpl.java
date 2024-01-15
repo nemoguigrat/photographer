@@ -41,7 +41,7 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
     @Override
     @Transactional(readOnly = true)
     public AdminListResponse<AdminPhotographerScheduleResponse> list(AdminPhotographerScheduleFilter filter, Pageable pageable) {
-        Page<PhotographerSchedule> schedules = photographerScheduleRepository.findAll(ScheduleSpec.filter(filter), pageable);
+        Page<PhotographerSchedule> schedules = photographerScheduleRepository.findAllWithFilter(filter.getEventId(), filter.getPhotographerId(), pageable);
         return AdminListResponse.of(schedules.map(photographerScheduleMapper::domainToAdminResponse));
     }
 
