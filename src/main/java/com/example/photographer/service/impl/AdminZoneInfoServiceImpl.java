@@ -5,7 +5,6 @@ import com.example.photographer.domain.PhotographerSchedule;
 import com.example.photographer.domain.PhotographerZoneInfo;
 import com.example.photographer.domain.Zone;
 import com.example.photographer.exception.NotFoundException;
-import com.example.photographer.repository.PhotographerRepository;
 import com.example.photographer.repository.PhotographerScheduleRepository;
 import com.example.photographer.repository.PhotographerZonePriorityRepository;
 import com.example.photographer.repository.ZoneRepository;
