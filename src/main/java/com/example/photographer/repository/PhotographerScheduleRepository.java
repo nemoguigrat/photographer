@@ -22,4 +22,10 @@ public interface PhotographerScheduleRepository extends JpaRepository<Photograph
 
     @Query("select count(p) > 0 from PhotographerSchedule p where p.photographer.id = :id and p.event.id = :eventId")
     boolean existsByPhotographerAndEvent(Long id, Long eventId);
+
+    @Query(value = "select distinct s from PhotographerSchedule s left join fetch s.photographer p left join fetch s.event e left join fetch s.zone z " +
+            "where (:eventId is null or e.id = :eventId) and (:photographerId is null or p.id = :photographerId)",
+    countQuery = "select count(s) from PhotographerSchedule s " +
+            "where (:eventId is null or s.event.id = :eventId) and (:photographerId is null or s.photographer.id = :photographerId)")
+    Page<PhotographerSchedule> findAllWithFilter(Long eventId, Long photographerId, Pageable pageable);
 }

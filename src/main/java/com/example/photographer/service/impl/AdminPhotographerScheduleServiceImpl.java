@@ -5,7 +5,6 @@ import com.example.photographer.domain.*;
 import com.example.photographer.exception.NotFoundException;
 import com.example.photographer.exception.ScheduleAlreadyExists;
 import com.example.photographer.repository.*;
-import com.example.photographer.repository.specification.ScheduleSpec;
 import com.example.photographer.service.AdminPhotographerScheduleService;
 import com.example.photographer.service.dto.AdminListResponse;
 import com.example.photographer.service.dto.schedule.request.AdminPhotographerScheduleFilter;
@@ -41,7 +40,7 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
     @Override
     @Transactional(readOnly = true)
     public AdminListResponse<AdminPhotographerScheduleResponse> list(AdminPhotographerScheduleFilter filter, Pageable pageable) {
-        Page<PhotographerSchedule> schedules = photographerScheduleRepository.findAll(ScheduleSpec.filter(filter), pageable);
+        Page<PhotographerSchedule> schedules = photographerScheduleRepository.findAllWithFilter(filter.getEventId(), filter.getPhotographerId(), pageable);
         return AdminListResponse.of(schedules.map(photographerScheduleMapper::domainToAdminResponse));
     }
 
