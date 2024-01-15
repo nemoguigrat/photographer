@@ -5,6 +5,8 @@ import com.example.photographer.domain.PhotographerZoneInfo;
 import com.example.photographer.service.dto.schedule.request.AdminZoneInfoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,10 @@ public class ZoneInfoSpec {
             }
 
             if (Long.class != query.getResultType()) {
+                Fetch<?, ?> fetch = root.fetch(PhotographerZoneInfo.Fields.photographerSchedule, JoinType.LEFT);
+                fetch.fetch(PhotographerSchedule.Fields.photographer, JoinType.LEFT);
+                fetch.fetch(PhotographerSchedule.Fields.event, JoinType.LEFT);
+                root.fetch(PhotographerZoneInfo.Fields.zone, JoinType.LEFT);
                 query.distinct(true);
             }
 
