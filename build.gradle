@@ -36,7 +36,9 @@ dependencies {
                 'io.github.jav:expo-server-sdk:1.1.0',
                 'net.javacrumbs.shedlock:shedlock-spring:4.44.0',
                 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.44.0',
-                'org.mapstruct:mapstruct:1.5.5.Final'
+                'org.mapstruct:mapstruct:1.5.5.Final',
+                'io.github.openfeign:feign-core:13.1',
+                'io.github.openfeign:feign-jackson:13.1'
 
     compileOnly 'org.projectlombok:lombok'
 
