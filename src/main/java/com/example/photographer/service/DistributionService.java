@@ -13,4 +13,6 @@ public interface DistributionService {
     void check(UmnUserDetails admin, AdminDistributionRequest request);
 
     List<AdminDistributionResponse> ping(UmnUserDetails admin);
+
+    void clear(List<Long> ids);
 }
