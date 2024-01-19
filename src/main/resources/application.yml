@@ -61,6 +61,8 @@ default:
     debug: true
 
 photographers:
+  distribution:
+    url: http://127.0.0.1:7090
   jobs:
     notify:
       before-event: "0 0/2 0/1 ? * *"

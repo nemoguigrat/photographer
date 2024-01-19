@@ -8,6 +8,7 @@ import com.example.photographer.service.dto.activity.distribution.request.AdminD
 import com.example.photographer.service.dto.activity.distribution.response.AdminDistributionResponse;
 import com.example.photographer.service.feign.DistributionApi;
 import com.example.photographer.service.feign.PhotographersList;
+import com.example.photographer.service.feign.ResultResponse;
 import com.example.photographer.support.UmnUserDetails;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,10 @@ public class DistributionServiceImpl implements DistributionService {
 
     @Override
     @Transactional(propagation = Propagation.NEVER)
-    public void check(UmnUserDetails admin, AdminDistributionRequest request) {
+    public ResultResponse check(UmnUserDetails admin, AdminDistributionRequest request) {
         PhotographersList photographersList = PhotographersList.of(admin.getId(), request.getPhotographers());
 
-        distributionApi.check(request.getEventId(), request.getZoneId(), photographersList);
+        return distributionApi.check(request.getEventId(), request.getZoneId(), photographersList);
     }
 
     @Override

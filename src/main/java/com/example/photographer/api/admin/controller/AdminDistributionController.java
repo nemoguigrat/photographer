@@ -3,6 +3,7 @@ package com.example.photographer.api.admin.controller;
 import com.example.photographer.service.DistributionService;
 import com.example.photographer.service.dto.activity.distribution.request.AdminDistributionRequest;
 import com.example.photographer.service.dto.activity.distribution.response.AdminDistributionResponse;
+import com.example.photographer.service.feign.ResultResponse;
 import com.example.photographer.support.UmnUserDetails;
 import com.example.photographer.support.api.AdminApi;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,8 +31,8 @@ public class AdminDistributionController {
     }
 
     @PostMapping("/service/check")
-    public void check(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails admin, @RequestBody AdminDistributionRequest request) {
-        distributionService.check(admin, request);
+    public ResultResponse check(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails admin, @RequestBody AdminDistributionRequest request) {
+        return distributionService.check(admin, request);
     }
 
     @GetMapping("/service/events")
