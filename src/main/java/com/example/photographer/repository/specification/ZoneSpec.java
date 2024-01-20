@@ -7,6 +7,7 @@ import com.example.photographer.service.dto.schedule.request.AdminZoneInfoFilter
 import com.example.photographer.service.dto.zone.request.AdminZoneFilter;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ZoneSpec {
             }
 
             if (Long.class != query.getResultType()) {
-                root.fetch(Zone.Fields.event);
+                root.fetch(Zone.Fields.event, JoinType.LEFT);
                 query.distinct(true);
             }
 
