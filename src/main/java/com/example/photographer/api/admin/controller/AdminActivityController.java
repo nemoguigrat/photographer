@@ -51,7 +51,7 @@ public class AdminActivityController {
     AdminListResponse<AdminFreeActivityResponse> findFreeActivity(@RequestParam Long scheduleId,
                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime time,
                                                                   @RequestParam Boolean currentZone,
-                                                                  @RequestParam Pageable pageable) {
+                                                                  @ParameterObject Pageable pageable) {
         return adminActivityService.findFreeActivity(scheduleId, time, currentZone, pageable);
     }
 
