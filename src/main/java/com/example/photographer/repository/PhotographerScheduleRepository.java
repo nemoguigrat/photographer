@@ -16,6 +16,9 @@ public interface PhotographerScheduleRepository extends JpaRepository<Photograph
     @Query("select distinct p from PhotographerSchedule p where p.photographer.id = :id and p.event.id = :eventId")
     Optional<PhotographerSchedule> findByPhotographerId(Long id, Long eventId);
 
+    @Query("select distinct p from PhotographerSchedule p left join fetch p.zone z where p.id = :id")
+    Optional<PhotographerSchedule> findByIdAndFetchZone(Long id);
+
     @Query(value = "select distinct p from PhotographerSchedule p left join fetch p.event where p.photographer.id = :id",
         countQuery = "select count(p) from PhotographerSchedule p where p.photographer.id = :id")
     Page<PhotographerSchedule> findByPhotographerId(Long id, Pageable pageable);

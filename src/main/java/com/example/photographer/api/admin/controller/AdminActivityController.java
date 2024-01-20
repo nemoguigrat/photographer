@@ -10,14 +10,17 @@ import com.example.photographer.service.dto.activity.request.AdminActivityShortF
 import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
+import com.example.photographer.service.dto.activity.response.AdminFreeActivityResponse;
 import com.example.photographer.support.api.AdminApi;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -42,6 +45,14 @@ public class AdminActivityController {
     @GetMapping("/activity/{id}")
     AdminActivityResponse find(@PathVariable Long id) {
         return adminActivityService.find(id);
+    }
+
+    @GetMapping("/activity/free")
+    AdminListResponse<AdminFreeActivityResponse> findFreeActivity(@RequestParam Long scheduleId,
+                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime time,
+                                                                  @RequestParam Boolean currentZone,
+                                                                  @RequestParam Pageable pageable) {
+        return adminActivityService.findFreeActivity(scheduleId, time, currentZone, pageable);
     }
 
     @PostMapping("/activity")

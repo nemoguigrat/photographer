@@ -8,8 +8,12 @@ import com.example.photographer.service.dto.activity.request.AdminActivityShortF
 import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
+import com.example.photographer.service.dto.activity.response.AdminFreeActivityResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminActivityService {
@@ -19,6 +23,8 @@ public interface AdminActivityService {
     AdminListResponse<AdminActivityResponse> findActivityList(AdminActivityFilter filter, Pageable pageable);
 
     AdminActivityResponse find(Long id);
+
+    AdminListResponse<AdminFreeActivityResponse> findFreeActivity(Long scheduleId, LocalDateTime time, Boolean currentZone, Pageable pageable);
 
     void create(AdminActivityRequest request);
 

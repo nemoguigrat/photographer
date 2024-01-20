@@ -12,7 +12,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -40,6 +42,9 @@ public class Activity extends BaseEntity {
     @JoinColumn(name = "zone_id")
     @Setter
     Zone zone;
+
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY)
+    Set<PhotographerSchedulePart> scheduleParts = new HashSet<>();
 
     @Column
     String name;

@@ -1,16 +1,10 @@
 package com.example.photographer.service.impl;
 
-import com.example.photographer.domain.Activity;
-import com.example.photographer.domain.Event;
-import com.example.photographer.domain.Location;
-import com.example.photographer.domain.Zone;
+import com.example.photographer.domain.*;
 import com.example.photographer.event.ScheduleChangedEvent;
 import com.example.photographer.exception.ActivityConflictException;
 import com.example.photographer.exception.NotFoundException;
-import com.example.photographer.repository.ActivityRepository;
-import com.example.photographer.repository.EventRepository;
-import com.example.photographer.repository.LocationRepository;
-import com.example.photographer.repository.ZoneRepository;
+import com.example.photographer.repository.*;
 import com.example.photographer.repository.specification.ActivitySpec;
 import com.example.photographer.service.AdminActivityService;
 import com.example.photographer.service.dto.AdminListResponse;
@@ -22,7 +16,10 @@ import com.example.photographer.service.dto.activity.request.AdminActivityShortF
 import com.example.photographer.service.dto.activity.response.ActivityConflictResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityResponse;
 import com.example.photographer.service.dto.activity.response.AdminActivityShortResponse;
+import com.example.photographer.service.dto.activity.response.AdminFreeActivityResponse;
+import com.example.photographer.support.FreeActivityStatus;
 import com.example.photographer.util.ActivityUtils;
+import com.example.photographer.util.NullSafeUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -42,10 +39,13 @@ import java.util.stream.Collectors;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AdminActivityServiceImpl implements AdminActivityService {
 
+    private final static Comparator<AdminFreeActivityResponse> COMPARATOR = Comparator.comparing(o1 -> o1.getStatus().ordinal());
+
     ActivityRepository activityRepository;
     ZoneRepository zoneRepository;
     LocationRepository locationRepository;
     EventRepository eventRepository;
+    PhotographerScheduleRepository photographerScheduleRepository;
     ApplicationEventPublisher publisher;
 
     @Override
@@ -67,6 +67,31 @@ public class AdminActivityServiceImpl implements AdminActivityService {
     public AdminActivityResponse find(Long id) {
         Activity event = activityRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         return buildActivityResponse(event);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AdminListResponse<AdminFreeActivityResponse> findFreeActivity(Long scheduleId, LocalDateTime time, Boolean currentZone, Pageable pageable) {
+        PhotographerSchedule schedule = photographerScheduleRepository.findByIdAndFetchZone(scheduleId).orElseThrow(() -> new NotFoundException(scheduleId));
+
+        Page<Activity> activities = activityRepository.findFreeActivity(time, currentZone ? schedule.getZone() : null, pageable);
+
+        Page<AdminFreeActivityResponse> mapped = activities.map(x ->
+                AdminFreeActivityResponse.builder()
+                        .id(x.getId())
+                        .locationId(NullSafeUtils.safeGetId(x.getLocation()))
+                        .zoneId(NullSafeUtils.safeGetId(x.getZone()))
+                        .priority(x.getPriority())
+                        .zoneNumber(x.getZone() != null ? x.getZone().getNumber() : null)
+                        .name(x.getName())
+                        .status(findStatus(x))
+                        .build()
+        );
+
+        List<AdminFreeActivityResponse> content = mapped.getContent();
+        content.sort(COMPARATOR);
+
+        return AdminListResponse.of(content, mapped.getTotalElements());
     }
 
     @Override
@@ -138,6 +163,21 @@ public class AdminActivityServiceImpl implements AdminActivityService {
     @Transactional
     public void deleteInBatch(List<Long> ids) {
         activityRepository.deleteByList(ids);
+    }
+
+    private FreeActivityStatus findStatus(Activity activity) {
+        Integer photographerCount = activity.getPhotographersCount();
+        Set<PhotographerSchedulePart> parts = activity.getScheduleParts();
+
+        if (parts.size() >= photographerCount) {
+            return FreeActivityStatus.DISTRIBUTED;
+        }
+
+        if (parts.size() == 0) {
+            return FreeActivityStatus.NOT_DISTRIBUTED;
+        }
+
+        return FreeActivityStatus.PHOTOGRAPHER_LACK;
     }
 
     private AdminActivityResponse buildActivityResponse(Activity activity) {
