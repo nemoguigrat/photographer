@@ -3,11 +3,9 @@ package com.example.photographer.service.dto.schedule.part.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Getter
+@Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
-@NoArgsConstructor
 public class AdminSchedulePartFilter {
 
     Long eventId;

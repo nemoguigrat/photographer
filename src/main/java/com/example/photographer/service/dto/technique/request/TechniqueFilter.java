@@ -3,12 +3,9 @@ package com.example.photographer.service.dto.technique.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Getter
+@Data
 @Builder
-@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
-@NoArgsConstructor
 public class TechniqueFilter {
 
     Long techniqueInfoId;

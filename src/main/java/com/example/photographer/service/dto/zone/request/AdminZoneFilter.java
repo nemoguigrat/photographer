@@ -3,11 +3,8 @@ package com.example.photographer.service.dto.zone.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Getter
-@Builder
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@NoArgsConstructor
-@AllArgsConstructor
 public class AdminZoneFilter {
 
     Long eventId;
