@@ -26,4 +26,9 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, JpaSp
 
     @Query("select distinct e.id from Activity a left join a.event e where a.lastUpdateTime >= :delay")
     List<Long> findLastModified(LocalDateTime delay);
+
+    @Query(value = "select distinct a from Activity a left join fetch a.zone z left join fetch a.scheduleParts p " +
+            "where a.startTime <= :time and a.endTime >= :time and (:zone is null or z = :zone)",
+            countQuery = "select count(a.id) from Activity a where a.startTime <= :time and a.endTime >= :time and (:zone is null or a.zone = :zone)")
+    Page<Activity> findFreeActivity(LocalDateTime time, Zone zone, Pageable pageable);
 }

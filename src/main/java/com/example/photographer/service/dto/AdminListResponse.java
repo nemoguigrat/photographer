@@ -17,4 +17,8 @@ public class AdminListResponse<T> {
     public static <T> AdminListResponse<T> of(Page<T> page) {
         return new AdminListResponse<>(page.getContent(), page.getTotalElements());
     }
+
+    public static <T> AdminListResponse<T> of(List<T> list, Long count) {
+        return new AdminListResponse<>(list, count);
+    }
 }

@@ -7,6 +7,8 @@ import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -25,6 +27,9 @@ public class PhotographerSchedule extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photographer_id", referencedColumnName = "id")
     Photographer photographer;
+
+    @OneToMany(mappedBy = "photographerSchedule", fetch = FetchType.LAZY)
+    Set<PhotographerSchedulePart> scheduleParts = new HashSet<>();
 
     @Column
     @Setter
