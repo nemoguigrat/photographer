@@ -85,6 +85,8 @@ public class AdminPhotographerScheduleServiceImpl implements AdminPhotographerSc
         if (zoneId != null) {
             Zone zone = zoneRepository.findById(zoneId).orElseThrow(() -> new NotFoundException(zoneId));
             schedule.setZone(zone);
+        } else {
+            schedule.setZone(null);
         }
 
         schedule.setLastUpdateTime(LocalDateTime.now());
