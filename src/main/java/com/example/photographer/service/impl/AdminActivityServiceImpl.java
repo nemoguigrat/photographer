@@ -88,7 +88,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
                         .build()
         );
 
-        List<AdminFreeActivityResponse> content = mapped.getContent();
+        List<AdminFreeActivityResponse> content = new ArrayList<>(mapped.getContent());
         content.sort(COMPARATOR);
 
         return AdminListResponse.of(content, mapped.getTotalElements());
