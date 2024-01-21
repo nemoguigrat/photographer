@@ -194,6 +194,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
                 .description(activity.getDescription())
                 .photographersCount(activity.getPhotographersCount())
                 .importantPersons(activity.getImportantPersons())
+                .priority(activity.getPriority())
                 .build();
     }
 
@@ -207,6 +208,7 @@ public class AdminActivityServiceImpl implements AdminActivityService {
                 .startTime(activity.getStartTime())
                 .endTime(activity.getEndTime())
                 .description(activity.getDescription())
+                .priority(activity.getPriority())
                 .name(activity.getName())
                 .build();
     }
