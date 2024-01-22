@@ -35,9 +35,9 @@ public class EvaluationSpec {
 
             if (Long.class != query.getResultType()) {
                 Fetch<?, ?> fetch = root.fetch(PhotographerFreetime.Fields.photographerSchedule, JoinType.LEFT);
-                fetch.fetch(PhotographerSchedule.Fields.photographer);
-                fetch.fetch(PhotographerSchedule.Fields.event);
-                fetch.fetch(PhotographerSchedule.Fields.zone);
+                fetch.fetch(PhotographerSchedule.Fields.photographer, JoinType.LEFT);
+                fetch.fetch(PhotographerSchedule.Fields.event, JoinType.LEFT);
+                fetch.fetch(PhotographerSchedule.Fields.zone, JoinType.LEFT);
                 query.distinct(true);
             }
 
@@ -48,9 +48,9 @@ public class EvaluationSpec {
     public static Specification<PhotographerEvaluation> findById(Long id) {
         return (root, query, cb) -> {
             Fetch<?, ?> fetch = root.fetch(PhotographerFreetime.Fields.photographerSchedule, JoinType.LEFT);
-            fetch.fetch(PhotographerSchedule.Fields.photographer);
-            fetch.fetch(PhotographerSchedule.Fields.event);
-            fetch.fetch(PhotographerSchedule.Fields.zone);
+            fetch.fetch(PhotographerSchedule.Fields.photographer, JoinType.LEFT);
+            fetch.fetch(PhotographerSchedule.Fields.event, JoinType.LEFT);
+            fetch.fetch(PhotographerSchedule.Fields.zone, JoinType.LEFT);
 
             return cb.equal(root.get(BaseEntity.Fields.id), id);
         };
