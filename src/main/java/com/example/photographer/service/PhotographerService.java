@@ -17,5 +17,5 @@ public interface PhotographerService {
 
     void upload(UmnUserDetails userDetails, MultipartFile file);
 
-    PhotographerAvatarResponse download(UmnUserDetails userDetails);
+    PhotographerAvatarResponse download(Long photographerId);
 }

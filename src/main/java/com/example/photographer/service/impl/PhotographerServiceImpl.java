@@ -107,8 +107,9 @@ public class PhotographerServiceImpl implements PhotographerService {
 
     @SneakyThrows
     @Override
-    public PhotographerAvatarResponse download(UmnUserDetails userDetails) {
-        Photographer photographer = photographerRepository.findPhotographerById(userDetails.getId());
+    @Transactional(readOnly = true)
+    public PhotographerAvatarResponse download(Long photographerId) {
+        Photographer photographer = photographerRepository.findPhotographerById(photographerId);
 
         if (photographer.getImage() != null) {
             Resource resource = new ByteArrayResource(photographer.getImage());

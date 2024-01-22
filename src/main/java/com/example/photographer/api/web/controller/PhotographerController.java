@@ -60,7 +60,7 @@ public class PhotographerController {
     @Operation(summary = "Загрузить аватар")
     @GetMapping(value = "/photographer/image")
     public ResponseEntity<Resource> download(@Parameter(hidden = true) @AuthenticationPrincipal UmnUserDetails userDetails) {
-        PhotographerAvatarResponse response = photographerService.download(userDetails);
+        PhotographerAvatarResponse response = photographerService.download(userDetails.getId());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(response.getContentType()))
