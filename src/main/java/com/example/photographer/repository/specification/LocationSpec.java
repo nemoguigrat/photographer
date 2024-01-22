@@ -4,6 +4,7 @@ import com.example.photographer.domain.Location;
 import com.example.photographer.service.dto.location.request.AdminLocationFilter;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,8 @@ public class LocationSpec {
             }
 
             if (Long.class != query.getResultType()) {
-                root.fetch(Location.Fields.event);
-                root.fetch(Location.Fields.zone);
+                root.fetch(Location.Fields.event, JoinType.LEFT);
+                root.fetch(Location.Fields.zone, JoinType.LEFT);
                 query.distinct(true);
             }
 

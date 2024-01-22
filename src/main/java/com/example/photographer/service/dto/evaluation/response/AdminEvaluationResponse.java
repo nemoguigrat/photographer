@@ -30,6 +30,7 @@ public class AdminEvaluationResponse {
     String comment;
 
     public AdminEvaluationResponse(PhotographerEvaluation evaluation) {
+        this.id = evaluation.getId();
         this.quality = evaluation.getQuality();
         this.punctuality =  evaluation.getPunctuality();
         this.judgment =  evaluation.getJudgment();

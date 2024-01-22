@@ -34,7 +34,7 @@ public class SchedulePartSpec {
 
             if (Long.class != query.getResultType()) {
                 Fetch<?, ?> fetch = root.fetch(PhotographerFreetime.Fields.photographerSchedule, JoinType.LEFT);
-                fetch.fetch(PhotographerSchedule.Fields.photographer);
+                fetch.fetch(PhotographerSchedule.Fields.photographer, JoinType.LEFT);
                 query.distinct(true);
             }
 
